@@ -144,6 +144,20 @@ class MyArrayListTest {
             assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
             assertThrows(IndexOutOfBoundsException.class, () -> list.remove(1));
         }
+
+        @Test
+        void 배열이_꽉_찬_상태에서_remove해도_터지지_않는다() {
+            // capacity == size 인 상황에서 시프트 루프가 배열 끝을 넘어 읽으면
+            // ArrayIndexOutOfBoundsException 발생. 회귀 방지.
+            MyArrayList<Integer> list = new MyArrayList<>(3);
+            list.add(1);
+            list.add(2);
+            list.add(3);
+            assertEquals(1, list.remove(0));
+            assertEquals(2, list.size());
+            assertEquals(2, list.get(0));
+            assertEquals(3, list.get(1));
+        }
     }
 
     @Nested
@@ -178,6 +192,24 @@ class MyArrayListTest {
             assertTrue(list.contains(1));
             assertTrue(list.contains(2));
             assertFalse(list.contains(3));
+        }
+
+        @Test
+        void contains는_size_범위_밖의_빈_슬롯과_혼동하지_않는다() {
+            // capacity 10인 기본 생성자. add("a") 한 번 → 슬롯 1~9는 null로 남음.
+            // contains(null)이 이 null 슬롯을 검출하면 안 됨. 회귀 방지.
+            MyList<String> list = new MyArrayList<>();
+            list.add("a");
+            assertFalse(list.contains(null));
+        }
+
+        @Test
+        void indexOf와_contains는_참조가_아닌_equals로_비교한다() {
+            // 참조 비교(==)면 실패하는 케이스. new String으로 다른 인스턴스 만듦.
+            MyList<String> list = new MyArrayList<>();
+            list.add(new String("hello"));
+            assertEquals(0, list.indexOf(new String("hello")));
+            assertTrue(list.contains(new String("hello")));
         }
     }
 

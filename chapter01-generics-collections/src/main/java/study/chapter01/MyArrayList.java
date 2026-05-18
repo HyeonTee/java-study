@@ -93,11 +93,11 @@ public class MyArrayList<T> implements MyList<T> {
         }
 
         T oldValue = (T) elements[index];
-        for (int i = index; i < size; i++) {
+        for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
 
-        elements[size--] = null;
+        elements[--size] = null;
 
         return oldValue;
     }

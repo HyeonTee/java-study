@@ -1,5 +1,6 @@
 package study.chapter01;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class MyLinkedList<T> implements MyList<T> {
     private Node<T> head;
     private Node<T> tail;
     private int size;
+    private int modCount;
 
     @Override
     public int size() {
@@ -80,6 +82,7 @@ public class MyLinkedList<T> implements MyList<T> {
             next.prev = newNode;
 
             size++;
+            modCount++;
         }
     }
 
@@ -97,6 +100,7 @@ public class MyLinkedList<T> implements MyList<T> {
         }
 
         size++;
+        modCount++;
     }
 
     /** tail에 추가 (O(1)). */
@@ -113,6 +117,7 @@ public class MyLinkedList<T> implements MyList<T> {
         }
 
         size++;
+        modCount++;
     }
 
     @Override
@@ -166,6 +171,7 @@ public class MyLinkedList<T> implements MyList<T> {
         node.value = null;
 
         size--;
+        modCount++;
 
         return value;
     }
@@ -201,6 +207,7 @@ public class MyLinkedList<T> implements MyList<T> {
         head = null;
         tail = null;
         size = 0;
+        modCount++;
     }
 
     @Override
@@ -210,12 +217,14 @@ public class MyLinkedList<T> implements MyList<T> {
 
     private class MyIterator implements Iterator<T> {
         Node<T> cursor = head;
+        int expectedModCount = modCount;
 
         public boolean hasNext() {
             return cursor != null;
         }
 
         public T next() {
+            checkForComodification();
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -224,6 +233,12 @@ public class MyLinkedList<T> implements MyList<T> {
             cursor = cursor.next;
 
             return value;
+        }
+
+        private void checkForComodification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
         }
     }
 

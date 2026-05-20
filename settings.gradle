@@ -1,3 +1,4 @@
 rootProject.name = 'java-study'
 
 include 'chapter01-generics-collections'
+include 'chapter02-hashmap-lru'

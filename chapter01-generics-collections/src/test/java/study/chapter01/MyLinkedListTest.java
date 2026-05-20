@@ -252,6 +252,289 @@ class MyLinkedListTest {
         }
     }
 
+    @Nested
+    @DisplayName("엣지 케이스 — 인덱스 경계")
+    class IndexBoundary {
+
+        @Test
+        void add_int_T에_음수_인덱스는_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            assertThrows(IndexOutOfBoundsException.class, () -> list.add(-1, 99));
+        }
+
+        @Test
+        void add_int_T에_size보다_큰_인덱스는_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            list.add(2);
+            assertThrows(IndexOutOfBoundsException.class, () -> list.add(3, 99));
+            assertThrows(IndexOutOfBoundsException.class, () -> list.add(99, 99));
+        }
+
+        @Test
+        void 빈_리스트에_add_0은_정상_동작() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(0, 42);
+            assertEquals(1, list.size());
+            assertEquals(42, list.get(0));
+        }
+
+        @Test
+        void 빈_리스트에_add_1은_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            assertThrows(IndexOutOfBoundsException.class, () -> list.add(1, 42));
+        }
+
+        @Test
+        void 빈_리스트에_set은_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            assertThrows(IndexOutOfBoundsException.class, () -> list.set(0, 42));
+        }
+
+        @Test
+        void 빈_리스트에_remove는_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            assertThrows(IndexOutOfBoundsException.class, () -> list.remove(0));
+            assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
+        }
+
+        @Test
+        void 범위_밖_set은_IndexOutOfBoundsException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            assertThrows(IndexOutOfBoundsException.class, () -> list.set(-1, 99));
+            assertThrows(IndexOutOfBoundsException.class, () -> list.set(1, 99));
+        }
+    }
+
+    @Nested
+    @DisplayName("엣지 케이스 — 객체 동치성")
+    class EqualsContract {
+
+        @Test
+        void indexOf와_contains는_equals로_비교한다() {
+            MyLinkedList<String> list = new MyLinkedList<>();
+            list.add(new String("hello"));
+            assertEquals(0, list.indexOf(new String("hello")));
+            assertTrue(list.contains(new String("hello")));
+        }
+
+        @Test
+        void indexOf는_같은_값이_여러_개라도_첫번째_인덱스() {
+            MyLinkedList<String> list = new MyLinkedList<>();
+            list.add("a");
+            list.add("b");
+            list.add("a");
+            list.add("a");
+            assertEquals(0, list.indexOf("a"));
+        }
+
+        @Test
+        void null이_여러_개여도_indexOf는_첫번째_null() {
+            MyLinkedList<String> list = new MyLinkedList<>();
+            list.add("a");
+            list.add(null);
+            list.add("b");
+            list.add(null);
+            assertEquals(1, list.indexOf(null));
+        }
+    }
+
+    @Nested
+    @DisplayName("엣지 케이스 — iterator")
+    class IteratorEdge {
+
+        @Test
+        void hasNext는_멱등이라_여러번_호출해도_cursor가_안_움직인다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            Iterator<Integer> it = list.iterator();
+            assertTrue(it.hasNext());
+            assertTrue(it.hasNext());
+            assertTrue(it.hasNext());
+            assertEquals(1, it.next());
+            assertFalse(it.hasNext());
+            assertFalse(it.hasNext());
+        }
+
+        @Test
+        void 빈_리스트_iterator의_next는_NoSuchElementException() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            Iterator<Integer> it = list.iterator();
+            assertFalse(it.hasNext());
+            assertThrows(NoSuchElementException.class, it::next);
+        }
+
+        @Test
+        void 단일_원소_iterator_시나리오() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(42);
+            Iterator<Integer> it = list.iterator();
+            assertTrue(it.hasNext());
+            assertEquals(42, it.next());
+            assertFalse(it.hasNext());
+            assertThrows(NoSuchElementException.class, it::next);
+        }
+    }
+
+    @Nested
+    @DisplayName("복합 시나리오")
+    class CombinedScenario {
+
+        @Test
+        void 단일_원소를_add후_remove하면_다시_비어있다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(42);
+            assertEquals(42, list.remove(0));
+            assertEquals(0, list.size());
+            assertTrue(list.isEmpty());
+            list.add(100);
+            assertEquals(100, list.get(0));
+        }
+
+        @Test
+        void clear_후에도_정상_동작() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 5; i++) list.add(i);
+            list.clear();
+
+            assertEquals(0, list.size());
+            assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
+
+            for (int i = 0; i < 3; i++) list.add(i * 10);
+            assertEquals(3, list.size());
+            assertEquals(0, list.get(0));
+            assertEquals(20, list.get(2));
+        }
+
+        @Test
+        void 앞에서_size번_remove_0을_반복하면_비어진다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 10; i++) list.add(i);
+            for (int i = 0; i < 10; i++) {
+                assertEquals(i, list.remove(0));
+            }
+            assertTrue(list.isEmpty());
+        }
+
+        @Test
+        void 맨_뒤에서_size번_remove를_반복하면_비어진다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 10; i++) list.add(i);
+            for (int i = 9; i >= 0; i--) {
+                assertEquals(i, list.remove(list.size() - 1));
+            }
+            assertTrue(list.isEmpty());
+        }
+
+        @Test
+        void add_remove_add_사이클에서도_순서가_정확하다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            list.add(2);
+            list.remove(0);
+            list.add(3);
+            list.add(0, 0);
+            list.remove(1);
+            assertEquals(2, list.size());
+            assertEquals(0, list.get(0));
+            assertEquals(3, list.get(1));
+        }
+
+        @Test
+        void set은_size를_바꾸지_않는다() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.add(1); list.add(2); list.add(3);
+            int before = list.size();
+            list.set(1, 99);
+            assertEquals(before, list.size());
+        }
+    }
+
+    @Nested
+    @DisplayName("LinkedList 특화 — addFirst/addLast 혼용")
+    class FirstLastMix {
+
+        @Test
+        void addFirst와_addLast를_번갈아_호출() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.addLast(2);    // [2]
+            list.addFirst(1);   // [1, 2]
+            list.addLast(3);    // [1, 2, 3]
+            list.addFirst(0);   // [0, 1, 2, 3]
+            list.addLast(4);    // [0, 1, 2, 3, 4]
+
+            assertEquals(5, list.size());
+            assertEquals(List.of(0, 1, 2, 3, 4), toList(list));
+        }
+
+        @Test
+        void addFirst만_n번_호출하면_역순() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 5; i++) list.addFirst(i);   // [4,3,2,1,0]
+            assertEquals(List.of(4, 3, 2, 1, 0), toList(list));
+        }
+
+        @Test
+        void 빈_리스트의_addFirst_후_remove() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            list.addFirst(1);
+            assertEquals(1, list.remove(0));
+            assertTrue(list.isEmpty());
+            // 그 다음 addLast도 정상
+            list.addLast(2);
+            assertEquals(2, list.get(0));
+        }
+    }
+
+    @Nested
+    @DisplayName("LinkedList 특화 — 양방향 탐색 분기")
+    class TwoWayTraversal {
+
+        @Test
+        void 큰_리스트의_끝쪽_인덱스_접근도_정확() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 1000; i++) list.add(i);
+            // tail 분기를 타는 인덱스들 (size/2 초과)
+            assertEquals(999, list.get(999));
+            assertEquals(998, list.get(998));
+            assertEquals(750, list.get(750));
+            assertEquals(501, list.get(501));
+            // head 분기 인덱스
+            assertEquals(0, list.get(0));
+            assertEquals(1, list.get(1));
+            assertEquals(499, list.get(499));
+        }
+
+        @Test
+        void 큰_리스트의_중간_set도_정확() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 1000; i++) list.add(i);
+
+            assertEquals(750, list.set(750, -1));
+            assertEquals(-1, list.get(750));
+
+            assertEquals(100, list.set(100, -2));
+            assertEquals(-2, list.get(100));
+
+            // 다른 위치는 그대로
+            assertEquals(0, list.get(0));
+            assertEquals(999, list.get(999));
+        }
+
+        @Test
+        void 큰_리스트의_끝쪽_remove도_정확() {
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+            for (int i = 0; i < 100; i++) list.add(i);
+
+            // tail 직전 인덱스 제거
+            assertEquals(98, list.remove(98));
+            assertEquals(99, list.get(98));   // 마지막이 한 칸 당겨짐
+            assertEquals(99, list.size());
+        }
+    }
+
     private static <T> List<T> toList(MyLinkedList<T> list) {
         List<T> out = new ArrayList<>();
         for (T v : list) out.add(v);

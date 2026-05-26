@@ -2,33 +2,35 @@
 
 자바를 단원별로 직접 구현하며 학습하는 저장소. 표준 라이브러리에 의존하기 전에 그 안쪽을 먼저 짜본 뒤, 동시성 → 네트워크 → 프레임워크 순서로 추상화 계층을 올라간다.
 
-## 커리큘럼 (11단원, 3 Phase)
+## 커리큘럼 (13단원, 3 Phase)
 
-### Phase 1 — 자료구조 / 제네릭 / 함수형
+### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
 | 단원 | 주제 |
 |---|---|
 | `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 |
 | `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 |
-| `chapter03-stream-functional-modern` | Stream, `Optional`, 함수형 인터페이스, `record`, `sealed`, switch expression, pattern matching |
+| `chapter03-stream-optional` | Stream API, `Optional` |
+| `chapter04-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) |
+| `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching |
 
 ### Phase 2 — JVM / 동시성
 
 | 단원 | 주제 |
 |---|---|
-| `chapter04-jvm-memory-model` | JMM, happens-before, 메모리 가시성, GC 기초, 캐시 일관성 |
-| `chapter05-thread-basics` | `Thread`, `synchronized`, `volatile`, Atomic, 경쟁조건 |
-| `chapter06-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer |
-| `chapter07-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 |
-| `chapter08-virtual-thread` | Project Loom, Virtual Thread, structured concurrency (**Java 21+ 필요**) |
+| `chapter06-jvm-memory-model` | JMM, happens-before, 메모리 가시성, GC 기초, 캐시 일관성 |
+| `chapter07-thread-basics` | `Thread`, `synchronized`, `volatile`, Atomic, 경쟁조건 |
+| `chapter08-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer |
+| `chapter09-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 |
+| `chapter10-virtual-thread` | Project Loom, Virtual Thread, structured concurrency (**Java 21+ 필요**) |
 
 ### Phase 3 — 네트워크 / 웹
 
 | 단원 | 주제 |
 |---|---|
-| `chapter09-tcp-http` | Socket TCP 서버 + HTTP 1.1 파싱 직접 구현 |
-| `chapter10-mini-web-framework` | 라우터, 핸들러 체인, JSON 직렬화 |
-| `chapter11-spring-boot-rest` | Spring Boot, JPA, 통합 테스트 |
+| `chapter11-tcp-http` | Socket TCP 서버 + HTTP 1.1 파싱 직접 구현 |
+| `chapter12-mini-web-framework` | 라우터, 핸들러 체인, JSON 직렬화 |
+| `chapter13-spring-boot-rest` | Spring Boot, JPA, 통합 테스트 |
 
 ## 학습 방식
 

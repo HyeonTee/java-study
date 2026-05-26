@@ -1,5 +1,7 @@
 # Chapter 03 — Stream API + Optional
 
+> **공식 문서**: [Stream (Java 21)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html) · [Optional (Java 21)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html)
+
 ## Stream API
 
 ### Stream이란?

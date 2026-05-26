@@ -6,8 +6,8 @@ package study.chapter02;
  * <p>
  * 내부는 <b>HashMap + Doubly Linked List</b> 조합:
  * <ul>
- *   <li>HashMap: key → Node 즉시 조회 (O(1))</li>
- *   <li>DLL: 사용 순서(최근 ↔ 오래됨) 유지. head = 가장 최근, tail = 가장 오래된 것.</li>
+ * <li>HashMap: key → Node 즉시 조회 (O(1))</li>
+ * <li>DLL: 사용 순서(최근 ↔ 오래됨) 유지. head = 가장 최근, tail = 가장 오래된 것.</li>
  * </ul>
  *
  * <p>
@@ -46,7 +46,7 @@ public class LRUCache<K, V> {
     }
 
     public int size() {
-        throw new UnsupportedOperationException("TODO: implement size()");
+        return size;
     }
 
     public int capacity() {
@@ -54,50 +54,121 @@ public class LRUCache<K, V> {
     }
 
     public boolean containsKey(K key) {
-        throw new UnsupportedOperationException("TODO: implement containsKey(key) — index.containsKey 위임");
+        return index.containsKey(key);
     }
 
     /**
      * key에 해당하는 value를 반환한다. 있다면 그 노드를 DLL의 head로 이동시켜 "최근 사용"으로 갱신한다. 없으면 null.
      */
     public V get(K key) {
-        throw new UnsupportedOperationException(
-                "TODO: implement get(key) — 1) index에서 노드 찾기 2) 없으면 null 3) 있으면 moveToHead(node) 후 value 반환");
+
+        Node<K, V> node = index.get(key);
+
+        if (node == null) {
+            return null;
+        }
+
+        moveToHead(node);
+
+        return node.value;
+
     }
 
     /**
      * key/value를 캐시에 넣는다.
      * <ul>
-     *   <li>이미 있는 key면: value 갱신 + DLL head로 이동.</li>
-     *   <li>새 key면: 새 노드를 head에 추가, size++.</li>
-     *   <li>새 key 추가 후 size > capacity면: tail(=가장 오래된 노드) 제거.</li>
+     * <li>이미 있는 key면: value 갱신 + DLL head로 이동.</li>
+     * <li>새 key면: 새 노드를 head에 추가, size++.</li>
+     * <li>새 key 추가 후 size > capacity면: tail(=가장 오래된 노드) 제거.</li>
      * </ul>
      */
     public void put(K key, V value) {
-        throw new UnsupportedOperationException(
-                "TODO: implement put(key, value) — 위 javadoc 참고. moveToHead / addToHead / removeTail 보조 메서드를 두면 깔끔.");
+
+        Node<K, V> node = index.get(key);
+
+        if (node != null) {
+            node.value = value;
+            moveToHead(node);
+        } else {
+            if (size >= capacity) {
+                Node<K, V> removedTail = removeTail();
+                index.remove(removedTail.key);
+                size--;
+            }
+            Node<K, V> newNode = new Node<>(key, value);
+
+            addToHead(newNode);
+            index.put(key, newNode);
+            size++;
+        }
+
     }
 
     /** 노드를 현재 위치에서 떼어내 head 앞에 다시 붙인다. */
     private void moveToHead(Node<K, V> node) {
-        throw new UnsupportedOperationException(
-                "TODO: implement moveToHead(node) — unlink 후 addToHead");
+
+        if (head == node) {
+            return;
+        }
+
+        unlink(node);
+        addToHead(node);
+
     }
 
     /** 새 노드를 head 앞에 붙인다. */
     private void addToHead(Node<K, V> node) {
-        throw new UnsupportedOperationException("TODO: implement addToHead(node)");
+
+        if (head == null) {
+            head = node;
+            tail = node;
+        } else {
+            head.prev = node;
+            node.next = head;
+
+            head = node;
+        }
+
     }
 
     /** 노드를 DLL에서 떼어낸다 (인덱스에서는 별도로 지워야 함). */
     private void unlink(Node<K, V> node) {
-        throw new UnsupportedOperationException(
-                "TODO: implement unlink(node) — prev/next 다시 연결, head/tail 갱신, node.prev = node.next = null");
+
+        Node<K, V> prev = node.prev;
+        Node<K, V> next = node.next;
+
+        if (prev == null && next == null) {
+            head = null;
+            tail = null;
+        } else if (prev == null) {
+            head = next;
+            next.prev = null;
+            node.next = null;
+        } else if (next == null) {
+            tail = prev;
+            prev.next = null;
+            node.prev = null;
+        } else {
+            prev.next = next;
+            next.prev = prev;
+
+            node.prev = null;
+            node.next = null;
+        }
+
     }
 
     /** tail 노드를 제거하고 그 노드를 반환한다 (호출자가 인덱스에서 지울 수 있도록). */
     private Node<K, V> removeTail() {
-        throw new UnsupportedOperationException(
-                "TODO: implement removeTail() — tail이 null이면 IllegalStateException. 아니면 unlink 후 반환.");
+
+        if (tail == null) {
+            throw new IllegalStateException();
+        }
+
+        Node<K, V> node = tail;
+        unlink(node);
+
+        return node;
+
     }
 }

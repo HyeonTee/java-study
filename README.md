@@ -20,9 +20,9 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 |---|---|---|
 | `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 89 tests |
 | `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 31 tests |
-| `chapter03-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
-| `chapter04-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) | 13 문제 · 44 tests |
-| `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | — |
+| `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) | 13 문제 · 44 tests |
+| `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
+| `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
 ### Phase 2 — JVM / 동시성
 

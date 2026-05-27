@@ -54,7 +54,7 @@ public class LRUCache<K, V> {
     }
 
     public boolean containsKey(K key) {
-        throw new UnsupportedOperationException("TODO: implement containsKey(key) — index.containsKey 위임");
+        throw new UnsupportedOperationException("TODO: implement containsKey(key) — 내부 자료구조에 위임하라");
     }
 
     /**
@@ -81,7 +81,7 @@ public class LRUCache<K, V> {
     /** 노드를 현재 위치에서 떼어내 head 앞에 다시 붙인다. */
     private void moveToHead(Node<K, V> node) {
         throw new UnsupportedOperationException(
-                "TODO: implement moveToHead(node) — unlink 후 addToHead");
+                "TODO: implement moveToHead(node) — 기존 위치에서 떼어내고 head로 옮겨라");
     }
 
     /** 새 노드를 head 앞에 붙인다. */
@@ -92,12 +92,12 @@ public class LRUCache<K, V> {
     /** 노드를 DLL에서 떼어낸다 (인덱스에서는 별도로 지워야 함). */
     private void unlink(Node<K, V> node) {
         throw new UnsupportedOperationException(
-                "TODO: implement unlink(node) — prev/next 다시 연결, head/tail 갱신, node.prev = node.next = null");
+                "TODO: implement unlink(node) — 노드를 DLL에서 떼어내라. 경계(head/tail) 케이스 주의");
     }
 
     /** tail 노드를 제거하고 그 노드를 반환한다 (호출자가 인덱스에서 지울 수 있도록). */
     private Node<K, V> removeTail() {
         throw new UnsupportedOperationException(
-                "TODO: implement removeTail() — tail이 null이면 IllegalStateException. 아니면 unlink 후 반환.");
+                "TODO: implement removeTail() — 가장 오래된 노드를 제거하고 반환하라");
     }
 }

@@ -52,7 +52,7 @@ public class FunctionalPractice {
      * 주어진 Predicate의 반대를 반환한다.
      */
     public static <T> Predicate<T> negatePredicate(Predicate<T> predicate) {
-        throw new UnsupportedOperationException("TODO: Predicate.negate()");
+        throw new UnsupportedOperationException("TODO: Predicate의 반전 메서드를 활용하라");
     }
 
     // ── 팩토리 — 고차 함수 (Higher-Order Function) ──────────────
@@ -63,7 +63,7 @@ public class FunctionalPractice {
      * <p>예: createMultiplier(3).apply(5) → 15
      */
     public static Function<Integer, Integer> createMultiplier(int factor) {
-        throw new UnsupportedOperationException("TODO: x -> x * factor");
+        throw new UnsupportedOperationException("TODO: factor를 캡처하는 람다를 반환하라");
     }
 
     /**
@@ -72,7 +72,7 @@ public class FunctionalPractice {
      * <p>예: createRangeChecker(1, 10).test(5) → true
      */
     public static Predicate<Integer> createRangeChecker(int min, int max) {
-        throw new UnsupportedOperationException("TODO: x -> x >= min && x <= max");
+        throw new UnsupportedOperationException("TODO: min, max를 캡처하는 범위 판별 람다를 반환하라");
     }
 
     /**
@@ -81,7 +81,7 @@ public class FunctionalPractice {
      * <p>예: createFormatter("[", "]").apply("hello") → "[hello]"
      */
     public static UnaryOperator<String> createFormatter(String prefix, String suffix) {
-        throw new UnsupportedOperationException("TODO: s -> prefix + s + suffix");
+        throw new UnsupportedOperationException("TODO: prefix, suffix를 캡처하는 문자열 변환 람다를 반환하라");
     }
 
     // ── 고급 패턴 ──────────────────────────────────────────────
@@ -105,7 +105,7 @@ public class FunctionalPractice {
      */
     public static <T> UnaryOperator<T> conditionalApply(Predicate<T> condition, UnaryOperator<T> operator) {
         throw new UnsupportedOperationException(
-                "TODO: t -> condition.test(t) ? operator.apply(t) : t");
+                "TODO: 조건 충족 시 operator 적용, 아니면 원본 유지하는 람다를 반환하라");
     }
 
     /**

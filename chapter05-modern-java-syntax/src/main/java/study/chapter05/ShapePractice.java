@@ -60,6 +60,6 @@ public class ShapePractice {
      */
     public static Optional<Shape> largestArea(List<Shape> shapes) {
         throw new UnsupportedOperationException(
-                "TODO: shapes.stream().max(Comparator.comparingDouble(ShapePractice::area))");
+                "TODO: Stream에서 넓이가 가장 큰 요소를 찾아 Optional로 반환하라");
     }
 }

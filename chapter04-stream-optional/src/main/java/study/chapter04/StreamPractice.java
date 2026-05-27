@@ -52,17 +52,17 @@ public class StreamPractice {
 
     /** 문자열을 길이별로 그룹핑한다. */
     public static Map<Integer, List<String>> groupByLength(List<String> strings) {
-        throw new UnsupportedOperationException("TODO: Collectors.groupingBy(String::length)");
+        throw new UnsupportedOperationException("TODO: 그룹핑 Collector를 활용하라");
     }
 
     /** 양수/비양수로 파티셔닝한다. true = 양수, false = 0 이하. */
     public static Map<Boolean, List<Integer>> partitionByPositive(List<Integer> numbers) {
-        throw new UnsupportedOperationException("TODO: Collectors.partitioningBy(n -> n > 0)");
+        throw new UnsupportedOperationException("TODO: boolean 조건으로 두 그룹을 나누는 Collector를 활용하라");
     }
 
     /** 문자열을 delimiter로 연결한다. */
     public static String joinStrings(List<String> strings, String delimiter) {
-        throw new UnsupportedOperationException("TODO: Collectors.joining(delimiter)");
+        throw new UnsupportedOperationException("TODO: 문자열을 연결하는 Collector를 활용하라");
     }
 
     /** 정수 리스트의 평균을 반환한다. 빈 리스트면 0.0. */
@@ -81,6 +81,6 @@ public class StreamPractice {
      */
     public static Map<String, Long> wordFrequency(List<String> sentences) {
         throw new UnsupportedOperationException(
-                "TODO: flatMap(s -> Arrays.stream(s.split(\" \"))) + map(toLowerCase) + Collectors.groupingBy + counting");
+                "TODO: 문장을 단어로 쪼개고, 소문자로 변환한 뒤, 단어별 개수를 세라");
     }
 }

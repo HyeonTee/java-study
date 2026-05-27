@@ -91,12 +91,12 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
      */
     private static int hash(Object key) {
         throw new UnsupportedOperationException(
-                "TODO: implement hash(key) — null이면 0. 아니면 h = key.hashCode(); h ^ (h >>> 16) 같은 식으로 spread.");
+                "TODO: implement hash(key) — null 처리 후, 상위 비트를 하위로 섞어 분포를 개선하라");
     }
 
     /** hash → 버킷 인덱스. capacity가 2의 거듭제곱이면 (capacity - 1)과 AND 하는 게 mod보다 빠르다. */
     private static int indexFor(int hash, int capacity) {
-        throw new UnsupportedOperationException("TODO: implement indexFor(hash, capacity) — (capacity - 1) & hash");
+        throw new UnsupportedOperationException("TODO: implement indexFor(hash, capacity) — capacity가 2의 거듭제곱인 점을 활용하라");
     }
 
     /** capacity를 2배로 키우고 모든 entry를 새 table에 재해시한다. */

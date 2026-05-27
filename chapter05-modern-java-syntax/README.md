@@ -1,5 +1,7 @@
 # Chapter 05 — 현대 Java 문법
 
+> **선행 단원**: `ShapePractice.largestArea()`는 Chapter 04(Stream + Optional)의 `Stream.max()`와 `Optional`을 활용한다.
+
 > **공식 문서**: [Record (Java 21)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html) · [Sealed Classes (JEP 409)](https://openjdk.org/jeps/409) · [Pattern Matching for switch (JEP 441)](https://openjdk.org/jeps/441)
 
 ## Record

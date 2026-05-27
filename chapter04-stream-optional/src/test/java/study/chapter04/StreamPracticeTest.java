@@ -283,7 +283,7 @@ class StreamPracticeTest {
         }
 
         @Test
-        void 여러_공백은_빈_문자열_단어를_만들_수_있다() {
+        void 단어_사이_공백이_하나면_정상_분리() {
             Map<String, Long> freq = StreamPractice.wordFrequency(List.of("a b"));
             assertEquals(1L, freq.get("a"));
             assertEquals(1L, freq.get("b"));

@@ -10,7 +10,7 @@
 4. `src/main/java` 안의 빈 구현을 채워서 테스트를 초록불로 만든다.
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
-## 커리큘럼 (13단원, 3 Phase)
+## 커리큘럼 (14단원, 3 Phase)
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -18,13 +18,15 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 89 tests |
-| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 31 tests |
+| `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 86 tests |
+| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 38 tests |
 | `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) | 13 문제 · 44 tests |
 | `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
 | `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
 ### Phase 2 — JVM / 동시성
+
+> **참고**: Phase 1 → 2 사이에 난이도 차이가 크다. 예외 처리(checked/unchecked), OOP 설계(상속, 다형성, equals/hashCode 계약) 개념이 부족하면 먼저 보충하고 진행하는 것을 권장한다.
 
 JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
 
@@ -35,6 +37,7 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 | `chapter08-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
 | `chapter09-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
 | `chapter10-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
+| `chapter11-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
 
 ### Phase 3 — 네트워크 / 웹
 
@@ -42,9 +45,9 @@ TCP 소켓부터 시작해 HTTP를 직접 파싱하고, 점진적으로 추상�
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter11-tcp-http` | Socket TCP 서버 + HTTP 1.1 파싱 직접 구현 | — |
-| `chapter12-mini-web-framework` | 라우터, 핸들러 체인, JSON 직렬화 | — |
-| `chapter13-spring-boot-rest` | Spring Boot, JPA, 통합 테스트 | — |
+| `chapter12-tcp-http` | Socket TCP 서버 + HTTP 1.1 파싱 직접 구현 | — |
+| `chapter13-mini-web-framework` | 라우터, 핸들러 체인, JSON 직렬화 | — |
+| `chapter14-spring-boot-rest` | Spring Boot, JPA, 통합 테스트 | — |
 
 > **규모**의 `—`는 아직 빌드되지 않은 단원. 진행하면서 추가된다.
 

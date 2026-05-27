@@ -145,6 +145,101 @@ class LRUCacheTest {
     }
 
     @Nested
+    @DisplayName("연속 eviction")
+    class ConsecutiveEviction {
+
+        @Test
+        void 연속_put으로_여러_번_eviction() {
+            LRUCache<String, Integer> cache = new LRUCache<>(2);
+            cache.put("a", 1);
+            cache.put("b", 2);
+            cache.put("c", 3);   // a 제거
+            cache.put("d", 4);   // b 제거
+            cache.put("e", 5);   // c 제거
+
+            assertEquals(2, cache.size());
+            assertNull(cache.get("a"));
+            assertNull(cache.get("b"));
+            assertNull(cache.get("c"));
+            assertEquals(4, cache.get("d"));
+            assertEquals(5, cache.get("e"));
+        }
+
+        @Test
+        void get과_put이_섞인_복합_시나리오() {
+            LRUCache<String, Integer> cache = new LRUCache<>(3);
+            cache.put("a", 1);
+            cache.put("b", 2);
+            cache.put("c", 3);
+
+            cache.get("a");       // a 최근으로 → 순서: b, c, a
+            cache.put("d", 4);   // b 제거     → 순서: c, a, d
+            cache.get("c");       // c 최근으로 → 순서: a, d, c
+            cache.put("e", 5);   // a 제거     → 순서: d, c, e
+
+            assertNull(cache.get("a"));
+            assertNull(cache.get("b"));
+            assertEquals(3, cache.get("c"));
+            assertEquals(4, cache.get("d"));
+            assertEquals(5, cache.get("e"));
+        }
+
+        @Test
+        void capacity만큼_넣고_전부_교체() {
+            LRUCache<Integer, Integer> cache = new LRUCache<>(3);
+            for (int i = 0; i < 3; i++) {
+                cache.put(i, i);
+            }
+            for (int i = 3; i < 6; i++) {
+                cache.put(i, i);
+            }
+            assertEquals(3, cache.size());
+            for (int i = 0; i < 3; i++) {
+                assertNull(cache.get(i));
+            }
+            for (int i = 3; i < 6; i++) {
+                assertEquals(i, cache.get(i));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("eviction 후 재삽입")
+    class ReinsertAfterEviction {
+
+        @Test
+        void eviction된_key를_다시_put할_수_있다() {
+            LRUCache<String, Integer> cache = new LRUCache<>(2);
+            cache.put("a", 1);
+            cache.put("b", 2);
+            cache.put("c", 3);   // a 제거
+
+            assertNull(cache.get("a"));
+            cache.put("a", 100); // a 재삽입 → b 제거
+
+            assertEquals(100, cache.get("a"));
+            assertNull(cache.get("b"));
+            assertEquals(3, cache.get("c"));
+            assertEquals(2, cache.size());
+        }
+
+        @Test
+        void 재삽입한_key가_최근으로_취급된다() {
+            LRUCache<String, Integer> cache = new LRUCache<>(2);
+            cache.put("a", 1);
+            cache.put("b", 2);
+            cache.put("c", 3);   // a 제거
+            cache.put("a", 10);  // a 재삽입, b 제거
+
+            cache.put("d", 4);   // c 제거 (a가 최근이므로)
+
+            assertEquals(10, cache.get("a"));
+            assertEquals(4, cache.get("d"));
+            assertNull(cache.get("c"));
+        }
+    }
+
+    @Nested
     @DisplayName("capacity 1 엣지 케이스")
     class CapacityOne {
 

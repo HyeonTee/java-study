@@ -16,7 +16,9 @@ class SwitchPracticeTest {
         @Test
         void 평일() {
             assertEquals("WEEKDAY", SwitchPractice.dayType("MONDAY"));
+            assertEquals("WEEKDAY", SwitchPractice.dayType("TUESDAY"));
             assertEquals("WEEKDAY", SwitchPractice.dayType("WEDNESDAY"));
+            assertEquals("WEEKDAY", SwitchPractice.dayType("THURSDAY"));
             assertEquals("WEEKDAY", SwitchPractice.dayType("FRIDAY"));
         }
 
@@ -39,18 +41,21 @@ class SwitchPracticeTest {
         @Test
         void 봄() {
             assertEquals("SPRING", SwitchPractice.seasonOf(3));
+            assertEquals("SPRING", SwitchPractice.seasonOf(4));
             assertEquals("SPRING", SwitchPractice.seasonOf(5));
         }
 
         @Test
         void 여름() {
             assertEquals("SUMMER", SwitchPractice.seasonOf(6));
+            assertEquals("SUMMER", SwitchPractice.seasonOf(7));
             assertEquals("SUMMER", SwitchPractice.seasonOf(8));
         }
 
         @Test
         void 가을() {
             assertEquals("FALL", SwitchPractice.seasonOf(9));
+            assertEquals("FALL", SwitchPractice.seasonOf(10));
             assertEquals("FALL", SwitchPractice.seasonOf(11));
         }
 

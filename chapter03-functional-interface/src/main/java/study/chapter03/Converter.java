@@ -19,17 +19,17 @@ public interface Converter<T, R> {
     /**
      * 이 Converter의 결과를 after에 넘겨 연쇄 변환하는 새 Converter를 반환한다.
      *
-     * <p>예: intToString.andThen(stringToDouble) → int → String → Double
+     * <p>
+     * 예: intToString.andThen(stringToDouble) → int → String → Double
      */
     default <V> Converter<T, V> andThen(Converter<R, V> after) {
-        throw new UnsupportedOperationException(
-                "TODO: this로 먼저 변환한 결과를 after에 넘기는 람다를 반환하라");
+        return input -> after.convert(this.convert(input));
     }
 
     /**
      * 입력을 그대로 반환하는 항등(identity) Converter를 반환한다.
      */
     static <T> Converter<T, T> identity() {
-        throw new UnsupportedOperationException("TODO: 입력을 그대로 돌려주는 항등 변환을 반환하라");
+        return input -> input;
     }
 }

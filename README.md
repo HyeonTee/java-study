@@ -18,13 +18,15 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 89 tests |
-| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 31 tests |
+| `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 86 tests |
+| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 38 tests |
 | `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) | 13 문제 · 44 tests |
 | `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
 | `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
 ### Phase 2 — JVM / 동시성
+
+> **참고**: Phase 1 → 2 사이에 난이도 차이가 크다. 예외 처리(checked/unchecked), OOP 설계(상속, 다형성, equals/hashCode 계약) 개념이 부족하면 먼저 보충하고 진행하는 것을 권장한다.
 
 JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
 

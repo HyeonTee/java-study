@@ -24,12 +24,12 @@ public class OptionalPractice {
 
     /** 값이 있으면 반환, 없으면 defaultValue를 반환한다. */
     public static String getOrDefault(Optional<String> opt, String defaultValue) {
-        throw new UnsupportedOperationException("TODO: orElse");
+        throw new UnsupportedOperationException("TODO: Optional의 기본값 반환 메서드를 활용하라");
     }
 
     /** 값이 있으면 반환, 없으면 supplier를 호출하여 반환한다. */
     public static String getOrCompute(Optional<String> opt, Supplier<String> supplier) {
-        throw new UnsupportedOperationException("TODO: orElseGet");
+        throw new UnsupportedOperationException("TODO: Optional의 지연 평가 기본값 메서드를 활용하라");
     }
 
     /**
@@ -38,7 +38,7 @@ public class OptionalPractice {
      * @throws IllegalArgumentException 값이 없을 때
      */
     public static String getOrThrow(Optional<String> opt) {
-        throw new UnsupportedOperationException("TODO: orElseThrow(IllegalArgumentException::new)");
+        throw new UnsupportedOperationException("TODO: 값이 없을 때 예외를 던지는 Optional 메서드를 활용하라");
     }
 
     /**
@@ -51,7 +51,7 @@ public class OptionalPractice {
 
     /** Optional 안의 문자열을 대문자로 변환한다. 비어있으면 empty 유지. */
     public static Optional<String> toUpperIfPresent(Optional<String> opt) {
-        throw new UnsupportedOperationException("TODO: map(String::toUpperCase)");
+        throw new UnsupportedOperationException("TODO: Optional의 변환 메서드로 대문자 변환을 적용하라");
     }
 
     /**
@@ -60,11 +60,11 @@ public class OptionalPractice {
      */
     public static Optional<Character> firstChar(Optional<String> opt) {
         throw new UnsupportedOperationException(
-                "TODO: flatMap — 빈 문자열이면 Optional.empty(), 아니면 Optional.of(charAt(0))");
+                "TODO: 변환 결과가 Optional일 때 중첩을 방지하는 메서드를 활용하라");
     }
 
     /** 문자열 길이가 minLength 이상인 경우만 유지한다. 미만이면 empty. */
     public static Optional<String> filterByLength(Optional<String> opt, int minLength) {
-        throw new UnsupportedOperationException("TODO: filter(s -> s.length() >= minLength)");
+        throw new UnsupportedOperationException("TODO: Optional의 조건 필터링 메서드를 활용하라");
     }
 }

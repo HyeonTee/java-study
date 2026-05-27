@@ -23,13 +23,13 @@ public interface Converter<T, R> {
      */
     default <V> Converter<T, V> andThen(Converter<R, V> after) {
         throw new UnsupportedOperationException(
-                "TODO: input -> after.convert(this.convert(input))");
+                "TODO: this로 먼저 변환한 결과를 after에 넘기는 람다를 반환하라");
     }
 
     /**
      * 입력을 그대로 반환하는 항등(identity) Converter를 반환한다.
      */
     static <T> Converter<T, T> identity() {
-        throw new UnsupportedOperationException("TODO: input -> input");
+        throw new UnsupportedOperationException("TODO: 입력을 그대로 돌려주는 항등 변환을 반환하라");
     }
 }

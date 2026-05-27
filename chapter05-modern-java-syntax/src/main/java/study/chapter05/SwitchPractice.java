@@ -54,7 +54,7 @@ public class SwitchPractice {
      */
     public static String describe(Object obj) {
         throw new UnsupportedOperationException(
-                "TODO: switch (obj) { case Integer i -> ... case String s -> ... case null -> ... default -> ... }");
+                "TODO: 패턴 매칭 switch로 타입별 분기를 작성하라");
     }
 
     /**
@@ -71,6 +71,6 @@ public class SwitchPractice {
      */
     public static String formatNumber(Object obj) {
         throw new UnsupportedOperationException(
-                "TODO: switch with guarded pattern — case Integer i when i > 0 -> ...");
+                "TODO: guarded pattern(when 절)을 활용해 타입 + 조건으로 분기하라");
     }
 }

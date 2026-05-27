@@ -11,21 +11,21 @@ package study.chapter05;
 public record Range(int from, int to) {
 
     public Range {
-        // TODO: from > to이면 IllegalArgumentException("from(" + from + ") > to(" + to + ")")
+        // TODO: from이 to보다 크면 예외를 던져라
     }
 
     /** 범위의 길이를 반환한다. (to - from) */
     public int length() {
-        throw new UnsupportedOperationException("TODO: to - from");
+        throw new UnsupportedOperationException("TODO: 끝값과 시작값의 차이를 구하라");
     }
 
     /** 값이 범위 안에 있는지 반환한다. (from <= value <= to) */
     public boolean contains(int value) {
-        throw new UnsupportedOperationException("TODO: from <= value && value <= to");
+        throw new UnsupportedOperationException("TODO: value가 from과 to 사이에 있는지 판별하라 (경계 포함)");
     }
 
     /** 다른 범위와 겹치는 부분이 있는지 반환한다. */
     public boolean overlaps(Range other) {
-        throw new UnsupportedOperationException("TODO: this.from <= other.to && other.from <= this.to");
+        throw new UnsupportedOperationException("TODO: 두 범위가 겹치는 조건을 생각해보라");
     }
 }

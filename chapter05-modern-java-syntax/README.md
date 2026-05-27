@@ -20,7 +20,7 @@ public record Point(int x, int y) {}
 - getter (`point.x()`, `point.y()` — `get` 접두사 없음)
 - `equals()`, `hashCode()`, `toString()`
 
-Rust의 `struct`에 `#[derive(Debug, PartialEq, Eq, Hash)]`를 붙인 것과 비슷하다.
+이 보일러플레이트를 한 줄로 줄여주는 것이 record의 핵심이다.
 
 ### 컴팩트 생성자 (Compact Constructor)
 
@@ -67,19 +67,9 @@ public record Range(int from, int to) {
 
 "이 타입의 하위 타입은 이것들뿐이다"를 **타입 시스템으로 보장**한다. Java 17에서 정식 도입.
 
-Rust의 `enum` (variants를 가지는)과 동기가 같다:
-
-```rust
-// Rust
-enum Shape {
-    Circle(f64),
-    Rectangle(f64, f64),
-    Triangle(f64, f64),
-}
-```
+하위 타입을 제한하면, switch에서 모든 경우를 빠짐없이 다룰 수 있고 컴파일러가 이를 검증해준다.
 
 ```java
-// Java — sealed + record 조합
 public sealed interface Shape permits Circle, Rectangle, Triangle {}
 public record Circle(double radius) implements Shape {}
 public record Rectangle(double width, double height) implements Shape {}

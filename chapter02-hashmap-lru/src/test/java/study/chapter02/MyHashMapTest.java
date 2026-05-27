@@ -133,6 +133,30 @@ class MyHashMapTest {
         }
 
         @Test
+        void remove한_key를_다시_put할_수_있다() {
+            MyHashMap<String, Integer> map = new MyHashMap<>();
+            map.put("a", 1);
+            map.remove("a");
+            map.put("a", 2);
+            assertEquals(2, map.get("a"));
+            assertEquals(1, map.size());
+        }
+
+        @Test
+        void 충돌하는_key를_remove후_재삽입() {
+            MyHashMap<SameHashKey, String> map = new MyHashMap<>();
+            SameHashKey k1 = new SameHashKey("a");
+            SameHashKey k2 = new SameHashKey("b");
+            map.put(k1, "v1");
+            map.put(k2, "v2");
+            map.remove(k1);
+            map.put(k1, "v1-new");
+            assertEquals("v1-new", map.get(k1));
+            assertEquals("v2", map.get(k2));
+            assertEquals(2, map.size());
+        }
+
+        @Test
         void 충돌하는_여러_key를_차례로_remove() {
             MyHashMap<SameHashKey, String> map = new MyHashMap<>();
             SameHashKey k1 = new SameHashKey("a");

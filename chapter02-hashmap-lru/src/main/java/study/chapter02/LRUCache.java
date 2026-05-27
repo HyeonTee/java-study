@@ -62,7 +62,7 @@ public class LRUCache<K, V> {
      */
     public V get(K key) {
         throw new UnsupportedOperationException(
-                "TODO: implement get(key) — 1) index에서 노드 찾기 2) 없으면 null 3) 있으면 moveToHead(node) 후 value 반환");
+                "TODO: implement get(key) — 조회 후 LRU 순서를 갱신하라");
     }
 
     /**

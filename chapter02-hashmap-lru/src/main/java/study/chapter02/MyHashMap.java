@@ -60,7 +60,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     @Override
     public V put(K key, V value) {
         throw new UnsupportedOperationException(
-                "TODO: implement put(key, value) — 1) hash 계산 2) 버킷 찾기 3) 같은 key 있으면 값 교체 후 이전 값 반환 4) 없으면 새 Entry를 버킷에 추가, size++ 5) size > threshold면 resize");
+                "TODO: implement put(key, value) — hash로 버킷을 찾고, 같은 key 유무에 따라 분기하라. capacity 초과 시 resize도 고려.");
     }
 
     @Override

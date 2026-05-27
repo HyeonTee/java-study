@@ -2,5 +2,6 @@ rootProject.name = 'java-study'
 
 include 'chapter01-generics-collections'
 include 'chapter02-hashmap-lru'
-include 'chapter03-stream-optional'
-include 'chapter04-functional-interface'
+include 'chapter03-functional-interface'
+include 'chapter04-stream-optional'
+include 'chapter05-modern-java-syntax'

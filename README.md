@@ -32,7 +32,7 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter06-jvm-memory-model` | JMM, happens-before, 메모리 가시성, GC 기초, 캐시 일관성 | — |
+| `chapter06-jvm-memory-model` | JMM, happens-before, 메모리 가시성, GC 기초 | 14 문제 · 34 tests |
 | `chapter07-thread-basics` | `Thread`, `synchronized`, `volatile`, Atomic, 경쟁조건 | — |
 | `chapter08-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
 | `chapter09-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |

@@ -147,6 +147,45 @@ static <T> UnaryOperator<T> conditionalApply(Predicate<T> condition, UnaryOperat
 
 ---
 
+## 두 입력을 합치는 함수 — BinaryOperator와 fold
+
+지금까지는 입력이 하나인 함수만 다뤘다. **두 값을 하나로 합치는** 함수가 `BinaryOperator<T>` (`(T, T) → T`)다.
+
+이 함수를 리스트에 반복 적용하면 **누적(fold/reduce)**이 된다. 초기값(identity)에서 시작해 원소를 하나씩 합쳐 나간다:
+
+```java
+// [1, 2, 3, 4]를 0에서 시작해 합산
+int sum = 0;                          // identity
+for (int x : List.of(1, 2, 3, 4)) {
+    sum = Integer.sum(sum, x);        // BinaryOperator 적용
+}
+// sum == 10
+```
+
+이것이 Chapter 04에서 만날 `Stream.reduce(identity, combiner)`의 동작 원리다. 여기서 직접 손으로 만들어 보면 Stream의 `reduce`가 낯설지 않다.
+
+**identity의 의미**: 빈 리스트에 fold하면 identity가 그대로 나온다. 합산이면 0, 곱셈이면 1, 문자열 연결이면 `""`이 identity다.
+
+---
+
+## 지연 평가 (Lazy Evaluation) — Supplier
+
+`Supplier<T>` (`() → T`)는 값을 **나중에, 필요할 때** 만들기 위한 인터페이스다.
+
+기본값을 줄 때 값 자체가 아니라 Supplier를 받으면, **그 기본값이 실제로 필요할 때만 계산**할 수 있다:
+
+```java
+// orElse: 기본값을 항상 계산한다 (값이 있어도 expensive() 호출됨)
+String a = (value != null) ? value : expensive();
+
+// orElseGet 패턴: 기본값을 필요할 때만 계산한다 (값이 있으면 supplier 미호출)
+String b = (value != null) ? value : defaultSupplier.get();
+```
+
+`Optional`의 `orElse`(값) vs `orElseGet`(Supplier) 차이가 정확히 이것이다. 기본값 계산이 비싸거나 부작용이 있다면 **반드시 지연 평가**해야 한다.
+
+---
+
 ## 커스텀 함수형 인터페이스
 
 표준 인터페이스로 부족할 때 직접 만든다. 핵심은 **추상 메서드 1개 + default/static은 자유**.
@@ -172,7 +211,7 @@ public interface Converter<T, R> {
 
 ## 연습 문제
 
-### FunctionalPractice (10문제)
+### FunctionalPractice (13문제)
 
 | # | 메서드 | 핵심 |
 |---|---|---|
@@ -186,6 +225,9 @@ public interface Converter<T, R> {
 | 8 | `applyN` | UnaryOperator를 n번 반복 적용 |
 | 9 | `conditionalApply` | Predicate + UnaryOperator 조합 |
 | 10 | `memoize` | Supplier 캐싱 |
+| 11 | `reduce` | BinaryOperator로 fold (Stream.reduce 손구현) |
+| 12 | `chainConsumers` | Consumer 합성 — 같은 입력에 부수효과 fan-out |
+| 13 | `lazyOrElse` | Supplier 지연 평가 (Optional.orElseGet 패턴) |
 
 ### Converter (3문제)
 

@@ -209,6 +209,38 @@ public interface Converter<T, R> {
 
 ---
 
+## 람다와 검사 예외 (Checked Exception)
+
+표준 함수형 인터페이스의 메서드는 **검사 예외(checked exception)를 던질 수 없다**. `Function.apply`, `Supplier.get` 등의 시그니처에 `throws`가 없기 때문이다.
+
+```java
+// 컴파일 에러 — Files.readString은 IOException(검사 예외)을 던진다
+Function<Path, String> read = Files::readString;
+```
+
+이건 Stream 파이프라인에서 자주 부딪히는 벽이다. 해결책은 **검사 예외를 던질 수 있는 커스텀 함수형 인터페이스**로 받은 뒤, **비검사 예외로 감싸 다시 던지는(wrap-and-rethrow)** 어댑터로 표준 `Function` 자리에 끼워 넣는 것이다.
+
+```java
+@FunctionalInterface
+interface ThrowingFunction<T, R> {
+    R apply(T t) throws Exception;     // 검사 예외 허용
+}
+
+static <T, R> Function<T, R> unchecked(ThrowingFunction<T, R> f) {
+    return t -> {
+        try {
+            return f.apply(t);
+        } catch (Exception e) {
+            throw new RuntimeException(e);   // 비검사로 감싸 다시 던짐
+        }
+    };
+}
+```
+
+이 wrap-and-rethrow 패턴은 Phase 2의 `CompletableFuture` 예외 전파(ch09)에서 다시 만난다. 검사 예외를 비검사로 바꾸면 원래 예외를 `cause`로 보존하는 것이 중요하다.
+
+---
+
 ## 연습 문제
 
 ### FunctionalPractice (13문제)
@@ -238,3 +270,12 @@ public interface Converter<T, R> {
 | 1 | `convert` | 추상 메서드 (이미 정의됨) |
 | 2 | `andThen` | default 메서드 — 합성 |
 | 3 | `identity` | static 팩토리 |
+
+### ThrowingFunctionPractice (2문제)
+
+검사 예외를 던지는 함수를 표준 `Function`으로 변환. ch09 예외 전파의 선수 패턴.
+
+| # | 메서드 | 핵심 |
+|---|---|---|
+| 1 | `unchecked` | 검사 예외 → `RuntimeException` 래핑 (cause 보존) |
+| 2 | `withDefault` | 예외 시 기본값 반환 |

@@ -21,29 +21,29 @@ Java 개발자는 `new`로 객체를 만들고, 더 이상 쓰지 않으면 GC�
 │                           JVM                               │
 │                                                             │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │                 Shared across all threads              │  │
+│  │                 Shared across all threads             │  │
 │  │                                                       │  │
 │  │  ┌─────────────────┐  ┌─────────────────────────────┐ │  │
 │  │  │   Method Area   │  │            Heap             │ │  │
 │  │  │  (class meta,   │  │  (object instances, arrays) │ │  │
 │  │  │   constant pool,│  │                             │ │  │
 │  │  │   static fields)│  │  Young ──┬── Eden           │ │  │
-│  │  │                 │  │          ├── Survivor 0      │ │  │
-│  │  │                 │  │          └── Survivor 1      │ │  │
-│  │  │                 │  │  Old ────── Tenured          │ │  │
+│  │  │                 │  │          ├── Survivor 0     │ │  │
+│  │  │                 │  │          └── Survivor 1     │ │  │
+│  │  │                 │  │  Old ────── Tenured         │ │  │
 │  │  └─────────────────┘  └─────────────────────────────┘ │  │
 │  └───────────────────────────────────────────────────────┘  │
 │                                                             │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │                 Per-thread (independent)               │  │
+│  │                 Per-thread (independent)              │  │
 │  │                                                       │  │
 │  │  Thread 1           Thread 2           Thread N       │  │
-│  │  ┌──────────┐      ┌──────────┐      ┌──────────┐    │  │
-│  │  │ PC Reg   │      │ PC Reg   │      │ PC Reg   │    │  │
-│  │  │ JVM Stack│      │ JVM Stack│      │ JVM Stack│    │  │
-│  │  │ Native   │      │ Native   │      │ Native   │    │  │
-│  │  │  Stack   │      │  Stack   │      │  Stack   │    │  │
-│  │  └──────────┘      └──────────┘      └──────────┘    │  │
+│  │  ┌──────────┐      ┌──────────┐      ┌──────────┐     │  │
+│  │  │ PC Reg   │      │ PC Reg   │      │ PC Reg   │     │  │
+│  │  │ JVM Stack│      │ JVM Stack│      │ JVM Stack│     │  │
+│  │  │ Native   │      │ Native   │      │ Native   │     │  │
+│  │  │  Stack   │      │  Stack   │      │  Stack   │     │  │
+│  │  └──────────┘      └──────────┘      └──────────┘     │  │
 │  └───────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 ```

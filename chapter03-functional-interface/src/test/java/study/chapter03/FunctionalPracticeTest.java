@@ -4,8 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -316,6 +318,114 @@ class FunctionalPracticeTest {
 
             assertNull(memoized.get());
             assertNull(memoized.get());
+            assertEquals(1, callCount.get());
+        }
+    }
+
+    // ── reduce ──────────────────────────────────────────────────
+
+    @Nested
+    @DisplayName("reduce")
+    class Reduce {
+
+        @Test
+        void 정수_리스트를_합산() {
+            assertEquals(10, FunctionalPractice.reduce(List.of(1, 2, 3, 4), 0, Integer::sum));
+        }
+
+        @Test
+        void 빈_리스트면_identity_그대로() {
+            assertEquals(0, FunctionalPractice.reduce(List.<Integer>of(), 0, Integer::sum));
+        }
+
+        @Test
+        void 원소_하나면_identity와_한번_결합() {
+            assertEquals(5, FunctionalPractice.reduce(List.of(5), 0, Integer::sum));
+        }
+
+        @Test
+        void 문자열_연결() {
+            assertEquals("abc", FunctionalPractice.reduce(List.of("a", "b", "c"), "", String::concat));
+        }
+
+        @Test
+        void identity가_초기값으로_쓰인다() {
+            assertEquals(110, FunctionalPractice.reduce(List.of(1, 2, 3, 4), 100, Integer::sum));
+        }
+    }
+
+    // ── chainConsumers ──────────────────────────────────────────
+
+    @Nested
+    @DisplayName("chainConsumers")
+    class ChainConsumers {
+
+        @Test
+        void 모든_consumer가_순서대로_실행된다() {
+            List<String> log = new ArrayList<>();
+            Consumer<String> first = s -> log.add("1:" + s);
+            Consumer<String> second = s -> log.add("2:" + s);
+
+            FunctionalPractice.chainConsumers(List.of(first, second)).accept("x");
+
+            assertEquals(List.of("1:x", "2:x"), log);
+        }
+
+        @Test
+        void 같은_입력이_모든_consumer에_전달된다() {
+            AtomicInteger sum = new AtomicInteger(0);
+            Consumer<Integer> add = sum::addAndGet;
+
+            FunctionalPractice.chainConsumers(List.of(add, add, add)).accept(5);
+
+            assertEquals(15, sum.get());   // 같은 입력 5가 세 번 적용됨
+        }
+
+        @Test
+        void 빈_리스트면_아무것도_하지_않는다() {
+            List<String> log = new ArrayList<>();
+            FunctionalPractice.chainConsumers(List.<Consumer<String>>of()).accept("x");
+            assertTrue(log.isEmpty());
+        }
+    }
+
+    // ── lazyOrElse ──────────────────────────────────────────────
+
+    @Nested
+    @DisplayName("lazyOrElse")
+    class LazyOrElse {
+
+        @Test
+        void value가_있으면_그대로_반환() {
+            assertEquals("present", FunctionalPractice.lazyOrElse("present", () -> "default"));
+        }
+
+        @Test
+        void value가_null이면_supplier_결과_반환() {
+            assertEquals("default", FunctionalPractice.lazyOrElse(null, () -> "default"));
+        }
+
+        @Test
+        void value가_있으면_supplier를_호출하지_않는다() {
+            AtomicInteger callCount = new AtomicInteger(0);
+            String result = FunctionalPractice.lazyOrElse("present", () -> {
+                callCount.incrementAndGet();
+                return "default";
+            });
+
+            assertEquals("present", result);
+            assertEquals(0, callCount.get());   // 지연 평가 — supplier 미호출
+        }
+
+        @Test
+        void value가_null일_때만_supplier를_한번_호출한다() {
+            AtomicInteger callCount = new AtomicInteger(0);
+            String result = FunctionalPractice.lazyOrElse(null, () -> {
+                callCount.incrementAndGet();
+                return "default";
+            });
+
+            assertEquals("default", result);
             assertEquals(1, callCount.get());
         }
     }

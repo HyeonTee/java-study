@@ -1,6 +1,8 @@
 package study.chapter03;
 
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -122,5 +124,49 @@ public class FunctionalPractice {
     public static <T> Supplier<T> memoize(Supplier<T> supplier) {
         throw new UnsupportedOperationException(
                 "TODO: 첫 get()에서 supplier 호출 후 결과 저장, 이후 저장값 반환");
+    }
+
+    // ── 2-arity / Consumer / 지연 평가 ──────────────────────────
+
+    /**
+     * items를 identity부터 시작해 combiner로 왼쪽부터 누적(fold)한다.
+     * 빈 리스트면 identity를 그대로 반환한다.
+     *
+     * <p>예: reduce([1, 2, 3, 4], 0, Integer::sum) → 10
+     *
+     * <p>입력 2개를 하나로 합치는 {@link BinaryOperator}를 처음 다루는 문제다.
+     * Chapter 04의 {@code Stream.reduce}를 손으로 직접 구현해보는 셈이다.
+     */
+    public static <T> T reduce(List<T> items, T identity, BinaryOperator<T> combiner) {
+        throw new UnsupportedOperationException(
+                "TODO: identity에서 시작해 각 원소를 combiner로 누적하라");
+    }
+
+    /**
+     * 여러 Consumer를 하나로 합쳐, 같은 입력에 대해 순서대로 모두 실행하는 Consumer를 반환한다.
+     * 빈 리스트면 아무 일도 하지 않는 Consumer를 반환한다.
+     *
+     * <p>Function 합성(앞 함수의 결과를 뒤 함수에 <em>파이프</em>)과 달리,
+     * Consumer 합성은 <em>같은 입력</em>에 부수효과를 차례로 적용한다.
+     *
+     * <p>힌트: {@code Consumer.andThen}을 활용할 수 있다.
+     */
+    public static <T> Consumer<T> chainConsumers(List<Consumer<T>> consumers) {
+        throw new UnsupportedOperationException(
+                "TODO: 모든 consumer를 순서대로 같은 입력에 적용하는 Consumer를 반환하라");
+    }
+
+    /**
+     * value가 null이 아니면 그대로 반환하고, null이면 defaultSupplier를 호출해 그 결과를 반환한다.
+     *
+     * <p><strong>핵심</strong>: value가 null이 아닐 때는 defaultSupplier를 <em>절대 호출하지 않아야</em> 한다.
+     * Supplier를 받는 이유가 바로 이 <strong>지연 평가(lazy evaluation)</strong> 때문이다 —
+     * 기본값 계산이 비싸더라도 필요할 때만 수행한다.
+     *
+     * <p>{@code Optional.orElseGet}과 동일한 패턴이다 ({@code orElse}가 아니라 {@code orElseGet}).
+     */
+    public static <T> T lazyOrElse(T value, Supplier<T> defaultSupplier) {
+        throw new UnsupportedOperationException(
+                "TODO: value가 있으면 그대로, 없으면 그때서야 defaultSupplier.get()을 호출하라");
     }
 }

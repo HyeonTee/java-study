@@ -10,7 +10,7 @@
 4. `src/main/java` 안의 빈 구현을 채워서 테스트를 초록불로 만든다.
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
-## 커리큘럼 (13단원, 3 Phase)
+## 커리큘럼 (15단원, 3 Phase)
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -41,12 +41,16 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 
 ### Phase 3 — 네트워크 / 웹
 
-TCP 소켓부터 시작해 HTTP를 직접 파싱하고, 점진적으로 추상화를 올려 라우터·핸들러 체인을 갖춘 미니 웹 프레임워크를 직접 만든다.
+이 저장소의 **캡스톤**. TCP 소켓의 바이트 입출력에서 시작해 HTTP를 직접 파싱하고, 동시성 모델을 진화시키고, 마지막에 라우터·핸들러 체인을 갖춘 미니 웹 프레임워크를 만든다. 각 단원은 앞선 Phase의 기술을 실제 워크로드에서 다시 꺼내 쓴다 — 네트워크 지식과 Java 숙련도를 동시에 쌓는 것이 목표다.
 
-| 단원 | 주제 | 규모 |
-|---|---|---|
-| `chapter12-tcp-http` | Socket TCP 서버 + HTTP 1.1 파싱 직접 구현 | — |
-| `chapter13-mini-web-framework` | 라우터, 핸들러 체인, JSON 직렬화 | — |
+설계 원칙: **표준 라이브러리가 감추는 로직(파서·상태 기계·직렬화기·서버 아키텍처)을 직접 손으로 구현**한다. 단순히 고수준 API를 설정만 하는 주제(TLS/HTTPS, WebSocket, HTTP/2, UDP)는 의도적으로 제외했다 — 그것은 프로토콜 지식이지 Java 내부 구현 학습이 아니기 때문이다.
+
+| 단원 | 주제 | 복습하는 이전 Phase | 규모 |
+|---|---|---|---|
+| `chapter12-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch11 스트림/`Channel`, try-with-resources | — |
+| `chapter13-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch05 sealed/record/pattern matching, ch04 Stream/Optional, ch02 HashMap(헤더 맵) | — |
+| `chapter14-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch07 Thread, ch08 Executor/`BlockingQueue`, ch10 Virtual Thread, ch06 가시성 | — |
+| `chapter15-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch01 제네릭, ch03 함수형 인터페이스, ch02 맵, ch05 record | — |
 
 > **규모**의 `—`는 아직 빌드되지 않은 단원. 진행하면서 추가된다.
 

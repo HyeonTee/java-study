@@ -366,21 +366,21 @@ if (ready) {
 JMM은 하드웨어의 복잡한 캐시 구조를 추상화한 모델이다:
 
 ```
-               ┌─────────────┐
-               │ Main Memory │  (힙 — 모든 스레드가 공유)
-               │  x = ?      │
-               │  ready = ?  │
-               └──────┬──────┘
-                      │
-          ┌───────────┼───────────┐
-          │           │           │
-    ┌─────┴─────┐ ┌───┴─────┐ ┌──┴──────┐
-    │  Working  │ │ Working │ │ Working │
-    │  Memory 1 │ │ Memory 2│ │ Memory 3│
-    │ (CPU캐시) │ │ (CPU캐시)│ │ (CPU캐시)│
-    └─────┬─────┘ └────┬────┘ └────┬────┘
-          │            │           │
-      Thread 1     Thread 2    Thread 3
+                  ┌─────────────────┐
+                  │   Main Memory   │  (heap — shared by all threads)
+                  │    x = ?        │
+                  │    ready = ?    │
+                  └────────┬────────┘
+                           │
+            ┌──────────────┼──────────────┐
+            │              │              │
+    ┌───────┴───────┐ ┌────┴────────┐ ┌───┴─────────┐
+    │  Working      │ │  Working    │ │  Working    │
+    │  Memory 1     │ │  Memory 2   │ │  Memory 3   │
+    │  (CPU cache)  │ │ (CPU cache) │ │ (CPU cache) │
+    └───────┬───────┘ └────┬────────┘ └───┬─────────┘
+            │              │              │
+        Thread 1       Thread 2       Thread 3
 ```
 
 각 스레드는 공유 변수를 **자신의 Working Memory(CPU 캐시)**에 복사해서 작업한다. Working Memory의 변경이 Main Memory에 **언제** 반영되는지는 보장되지 않는다.

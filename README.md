@@ -1,6 +1,12 @@
 # Java Study
 
-자바를 단원별로 직접 구현하며 학습하는 저장소. 표준 라이브러리에 의존하기 전에 그 안쪽을 먼저 짜본 뒤, 동시성 → 네트워크 순서로 추상화 계층을 올라간다.
+자바를 단원별로 직접 구현하며 학습하는 저장소. 표준 라이브러리에 의존하기 전에 그 내부 동작을 먼저 직접 구현한 뒤, 동시성 → 네트워크 순서로 추상화 계층을 올라간다.
+
+**대상**: Java 기초를 마치고 자료구조·동시성·네트워크를 깊이 파고들려는 개발자.
+
+## 학습 방식
+
+각 단원은 **이론 `README.md` + 빈 구현(인터페이스 + 스텁) + 실패하는 테스트** 형태로 제공된다. 테스트가 통과하도록 직접 구현하며 학습한다. 정답 코드는 제공하지 않는다.
 
 ## 시작하기
 
@@ -11,6 +17,8 @@
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
 ## 커리큘럼 (15단원, 3 Phase)
+
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~06이 빌드되어 있다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -24,7 +32,7 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 | `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
 | `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
-### Phase 1 → Phase 2 준비
+### Phase 2로 넘어가기 전 — 선수 개념 점검
 
 Phase 1과 2 사이엔 **난이도가 아니라 성격의 전환**이 있다. Phase 1은 "어려운 자료구조를 직접 코딩"하는 반면, Phase 2(특히 ch06)는 "개념을 읽고 이해"하는 비중이 크다 — 코드량은 줄지만 배경 지식이 늘어난다. 아래 세 가지는 Phase 2 이후가 암묵적으로 가정하는 선수 개념이다. 부족하면 먼저 다지는 것을 권한다.
 
@@ -59,12 +67,6 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 | `chapter13-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch05 sealed/record/pattern matching, ch04 Stream/Optional, ch02 HashMap(헤더 맵) | — |
 | `chapter14-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch07 Thread, ch08 Executor/`BlockingQueue`, ch10 Virtual Thread, ch06 가시성 | — |
 | `chapter15-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch01 제네릭, ch03 함수형 인터페이스, ch02 맵, ch05 record | — |
-
-> **규모**의 `—`는 아직 빌드되지 않은 단원. 진행하면서 추가된다.
-
-## 학습 방식
-
-각 단원은 **인터페이스 + 빈 구현 + 실패하는 테스트** 형태로 제공된다. 테스트가 통과하도록 직접 구현하며 학습한다. 정답 코드는 제공하지 않는다.
 
 ## 실행
 

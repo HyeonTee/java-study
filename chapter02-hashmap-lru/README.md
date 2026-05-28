@@ -106,6 +106,41 @@ resize는 O(n)이지만 발생 빈도가 낮아 amortized O(1)을 유지한다. 
 
 ---
 
+## equals / hashCode 계약
+
+HashMap은 키를 찾을 때 **두 단계**로 동작한다: `hashCode()`로 버킷을 고르고, 그 버킷 안에서 `equals()`로 정확한 키를 찾는다. 그래서 키 타입의 `equals`/`hashCode`가 올바르지 않으면 **방금 넣은 값을 못 찾는** 버그가 생긴다. String·Integer 같은 표준 타입은 이미 올바르게 구현돼 있지만, **직접 만든 클래스를 키로 쓰려면 두 메서드를 반드시 오버라이드**해야 한다.
+
+### equals 5조항
+
+| 조항 | 의미 |
+|---|---|
+| 반사성(reflexive) | `x.equals(x)`는 항상 true |
+| 대칭성(symmetric) | `x.equals(y)`이면 `y.equals(x)` |
+| 추이성(transitive) | `x.equals(y)`, `y.equals(z)`이면 `x.equals(z)` |
+| 일관성(consistent) | 값이 안 바뀌면 몇 번 호출해도 같은 결과 |
+| null 비교 | `x.equals(null)`은 항상 false |
+
+### 가장 중요한 규칙
+
+> **equals가 true인 두 객체는 hashCode도 반드시 같아야 한다.**
+
+역은 성립하지 않아도 된다 — 서로 다른 객체가 같은 hashCode를 가지는 **해시 충돌은 허용**된다(그래서 equals로 다시 거른다). 하지만 equals는 같은데 hashCode가 다르면, 두 객체가 **다른 버킷**에 들어가 영원히 못 만난다.
+
+```java
+// 잘못된 예: equals만 오버라이드하고 hashCode를 빠뜨림
+Money a = new Money("USD", 100);
+Money b = new Money("USD", 100);
+a.equals(b);                 // true (직접 구현)
+map.put(a, "x");
+map.get(b);                  // null! — hashCode가 Object 기본(주소 기반)이라 다른 버킷
+```
+
+### 키는 불변(immutable)이어야 한다
+
+`equals`/`hashCode`가 의존하는 필드를 **삽입 후에 변경하면** hashCode가 바뀌어, 처음 들어간 버킷과 어긋난다. 그래서 맵의 키는 불변 객체여야 한다 — `Money`의 필드를 `final`로 둔 이유다. (이 함정은 `MoneyTest`의 "가변 키 함정" 테스트로 직접 확인한다.)
+
+---
+
 ## LRU Cache
 
 ### LRU란?
@@ -186,3 +221,13 @@ HashMap (O(1) 조회)          Doubly Linked List (O(1) 삽입/삭제, 순서 �
 | 5 | `removeTail` | unlink(tail) + 반환 |
 | 6 | `get` | 조회 + 순서 갱신 |
 | 7 | `put` | 삽입/갱신 + eviction |
+
+### Money (equals/hashCode 작성)
+
+`HashMap`의 키가 되려면 무엇이 필요한지를 직접 구현하며 확인한다. Phase 2 이후 값 객체를 다룰 때 반드시 필요한 선수 개념.
+
+| # | 메서드 | 핵심 |
+|---|---|---|
+| 1 | `equals` | 값 기반 동등성 + 5조항 (반사·대칭·추이·일관·null) |
+| 2 | `hashCode` | equals와 일관된 해시 (equals→hashCode 규칙) |
+| — | 가변 키 함정 | 삽입 후 키 변경 시 조회 실패 (이해 확인 테스트) |

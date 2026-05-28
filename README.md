@@ -19,14 +19,22 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 | 단원 | 주제 | 규모 |
 |---|---|---|
 | `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 86 tests |
-| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시 | 2 클래스 · 38 tests |
-| `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier` 등) | 13 문제 · 44 tests |
+| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시, `equals`/`hashCode` 계약 | 16 문제 · 51 tests |
+| `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
 | `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
 | `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
-### Phase 2 — JVM / 동시성
+### Phase 1 → Phase 2 준비
 
-> **참고**: Phase 1 → 2 사이에 난이도 차이가 크다. 예외 처리(checked/unchecked), OOP 설계(상속, 다형성, equals/hashCode 계약) 개념이 부족하면 먼저 보충하고 진행하는 것을 권장한다.
+Phase 1과 2 사이엔 **난이도가 아니라 성격의 전환**이 있다. Phase 1은 "어려운 자료구조를 직접 코딩"하는 반면, Phase 2(특히 ch06)는 "개념을 읽고 이해"하는 비중이 크다 — 코드량은 줄지만 배경 지식이 늘어난다. 아래 세 가지는 Phase 2 이후가 암묵적으로 가정하는 선수 개념이다. 부족하면 먼저 다지는 것을 권한다.
+
+| 선수 개념 | 왜 필요한가 | 어디서 다지나 |
+|---|---|---|
+| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 `Money` 문제 |
+| 검사 예외(checked) + wrap-and-rethrow | ch09 예외 전파, ch11 `IOException`, ch12 소켓 | ch03 `ThrowingFunction` 문제 |
+| try-with-resources / `AutoCloseable` | ch11 IO, ch12 소켓 수명주기 | ch11에서 본격적으로 |
+
+### Phase 2 — JVM / 동시성
 
 JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
 

@@ -546,39 +546,59 @@ if (done) {
 
 ---
 
+## 참조의 종류 — strong / soft / weak / phantom
+
+지금까지 본 참조는 전부 **강한 참조(strong reference)**다. `Object o = new Object();`의 `o`처럼, 강한 참조가 하나라도 살아 있으면 GC는 그 객체를 절대 수거하지 않는다. `java.lang.ref` 패키지는 GC와의 관계가 더 약한 참조들을 제공한다.
+
+| 참조 종류 | 수거 시점 | 용도 |
+|---|---|---|
+| Strong (일반) | 도달 불가능해질 때까지 절대 수거 안 됨 | 보통의 참조 |
+| `SoftReference` | 메모리가 부족할 때 수거 | 메모리 민감 캐시 |
+| `WeakReference` | 다음 GC에서 (강한 참조가 없으면) 수거 | 약한 캐시, 누수 방지 |
+| `PhantomReference` | 수거 직전, `ReferenceQueue`로만 관찰 | 자원 정리(`finalize` 대체) |
+
+```java
+WeakReference<byte[]> ref = new WeakReference<>(new byte[1024]);
+ref.get();   // 살아 있으면 배열, GC가 수거했으면 null
+```
+
+**핵심**: `WeakReference.get()`은 어느 순간 `null`을 반환할 수 있다. 강한 참조가 사라진 객체를 약한 참조만으로는 살릴 수 없기 때문이다. 이 성질을 이용하면 "값을 들고 있되, 아무도 안 쓰면 알아서 비워지는" 캐시를 만들 수 있다 — 강한 참조 맵이 일으키는 메모리 누수를 막는다.
+
+> `System.gc()`는 GC를 **요청**할 뿐 보장하지 않는다. 그래서 "약한 참조가 언제 비워지는가"는 테스트로 단정할 수 없고, **검증되면 단언하고 아니면 skip**하는 식으로만 다룬다 (아래 `WeakValueCache` 테스트 참고).
+
+---
+
+## 왜 가시성/happens-before는 "문제"가 아니라 "데모"인가
+
+이 단원의 가시성·재배치·happens-before는 **단위 테스트로 채점하지 않는다.** 데이터 레이스는 **비결정적**이기 때문이다 — `volatile`을 빠뜨린 잘못된 코드도 x86에서는 우연히 잘 동작할 때가 많아서, "레이스가 있다"를 테스트로 재현할 수 없다. 잘못된 구현이 초록불이 되는 테스트는 학습에 해롭다.
+
+대신 `VisibilityDemo`를 **직접 실행해보며 관찰**한다. 동시성을 제대로 *구현*하고 검증하는 일(올바른 게시, 동기화)은 Phase 2의 ch07(thread-basics) 이후에서 적절한 도구로 다룬다. 이 단원은 "왜 그런 보장이 필요한가"라는 **메모리 모델의 이유**에 집중한다.
+
+---
+
 ## 연습 문제
 
-### MemoryAreaQuiz (5문제)
+### ReachabilityAnalyzer (3문제) — GC의 mark 단계 직접 구현
 
-JVM 메모리 영역에 대한 이해를 확인하는 퀴즈. 각 메서드는 해당 상황에서의 저장 위치나 동작을 반환한다.
-
-| # | 메서드 | 핵심 |
-|---|---|---|
-| 1 | `whereIsLocalPrimitive()` | 지역 변수(primitive)의 저장 위치 |
-| 2 | `whereIsObjectInstance()` | new로 생성된 객체의 저장 위치 |
-| 3 | `whereIsStaticField()` | static 필드의 저장 위치 |
-| 4 | `whereIsMethodInfo()` | 클래스의 메서드 메타데이터 저장 위치 |
-| 5 | `whatHappensWhenMethodReturns()` | 메서드 리턴 시 스택 프레임의 변화 |
-
-### GCPractice (5문제)
-
-GC의 동작 원리와 세대별 관리를 이해하는 문제.
+`HeapObject` 그래프 위에서 **도달 가능성 분석**을 손으로 구현한다. 실제 GC가 GC Root에서 도달 가능한 객체를 표시(mark)하고 나머지를 수거(sweep)하는 그 알고리즘이다. 퀴즈로 "순환 참조도 수거되나요?"를 묻는 대신, **순환 참조가 수거 대상이 되는 것을 코드로 증명**한다.
 
 | # | 메서드 | 핵심 |
 |---|---|---|
-| 1 | `isEligibleForGC_unreferenced()` | 참조 없는 객체의 GC 대상 여부 |
-| 2 | `isEligibleForGC_reassigned()` | 참조 재할당 시 이전 객체의 GC 대상 여부 |
-| 3 | `isEligibleForGC_circularReference()` | 순환 참조만 남은 객체의 GC 대상 여부 |
-| 4 | `whichGCGeneration_newObject()` | 새로 생성된 객체의 세대 |
-| 5 | `whichGCGeneration_survivedObject()` | 여러 번 살아남은 객체의 세대 |
+| 1 | `reachable(roots)` | root에서 도달 가능한 객체 집합 (BFS/DFS, 사이클 안전) |
+| 2 | `isReachable(roots, target)` | 특정 객체의 도달 가능 여부 |
+| 3 | `collectable(all, roots)` | 도달 불가능한 = 수거 대상 집합 (전체 − 도달가능) |
+| — | 순환 참조 테스트 | root에서 끊긴 사이클은 둘 다 수거 대상임을 검증 |
 
-### HappensBeforePractice (4문제)
+### WeakValueCache (3문제) — 약한 참조 캐시 구현
 
-Java Memory Model의 happens-before 관계를 판별하는 문제.
+`java.lang.ref.WeakReference`로 값을 보관하는 캐시를 직접 만든다. 강한 참조가 살아 있는 동안의 동작은 **결정적으로** 테스트하고, "GC되면 사라진다"는 `System.gc()`가 실제로 수거했을 때만 검증(아니면 skip)한다.
 
 | # | 메서드 | 핵심 |
 |---|---|---|
-| 1 | `doesVolatileWriteHappenBefore()` | volatile 쓰기 → 읽기의 happens-before 여부 |
-| 2 | `doesSynchronizedBlockHappenBefore()` | synchronized unlock → lock의 happens-before 여부 |
-| 3 | `doesThreadStartHappenBefore()` | Thread.start() → run()의 happens-before 여부 |
-| 4 | `doesThreadJoinHappenBefore()` | run() 종료 → join() 리턴의 happens-before 여부 |
+| 1 | `put(k, v)` | 값을 `WeakReference`로 감싸 저장 |
+| 2 | `get(k)` | 살아 있으면 값, 수거됐으면 `Optional.empty()` |
+| 3 | `size()` | 아직 살아 있는 항목 수 |
+
+### VisibilityDemo (데모 — 채점 안 함)
+
+`volatile` 유무에 따른 가시성 차이를 직접 실행해 관찰하는 데모 클래스. 위 "왜 데모인가" 절 참고.

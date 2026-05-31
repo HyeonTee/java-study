@@ -18,7 +18,7 @@
 
 ## 커리큘럼 (15단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~06이 빌드되어 있다.
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~07이 빌드되어 있다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -48,7 +48,7 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 | 단원 | 주제 | 규모 |
 |---|---|---|
 | `chapter06-jvm-memory-model` | 도달성 분석(mark-sweep) 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 6 문제 · 17 tests |
-| `chapter07-thread-basics` | `Thread`, `synchronized`, `volatile`, Atomic, 경쟁조건 | — |
+| `chapter07-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
 | `chapter08-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
 | `chapter09-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
 | `chapter10-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |

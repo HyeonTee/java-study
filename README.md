@@ -16,9 +16,9 @@
 4. `src/main/java` 안의 빈 구현을 채워서 테스트를 초록불로 만든다.
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
-## 커리큘럼 (15단원, 3 Phase)
+## 커리큘럼 (16단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~07이 빌드되어 있다.
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~08이 빌드되어 있다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -37,9 +37,9 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 
 | 선수 개념 | 왜 필요한가 | 어디서 다지나 |
 |---|---|---|
-| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 `Money` 문제 |
-| 검사 예외(checked) + wrap-and-rethrow | ch09 예외 전파, ch11 `IOException`, ch12 소켓 | ch03 `ThrowingFunction` 문제 |
-| try-with-resources / `AutoCloseable` | ch11 IO, ch12 소켓 수명주기 | ch11에서 본격적으로 |
+| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch07에서 계약 자체를 작성 |
+| 검사 예외(checked) + wrap-and-rethrow | ch10 예외 전파, ch12 `IOException`, ch13 소켓 | ch03 `ThrowingFunction` 문제 |
+| try-with-resources / `AutoCloseable` | ch12 IO, ch13 소켓 수명주기 | ch12에서 본격적으로 |
 
 ### Phase 2 — JVM / 동시성
 
@@ -48,11 +48,12 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 | 단원 | 주제 | 규모 |
 |---|---|---|
 | `chapter06-jvm-memory-model` | 도달성 분석(mark-sweep) 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 6 문제 · 17 tests |
-| `chapter07-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
-| `chapter08-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
-| `chapter09-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
-| `chapter10-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
-| `chapter11-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
+| `chapter07-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
+| `chapter08-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
+| `chapter09-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
+| `chapter10-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
+| `chapter11-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
+| `chapter12-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
 
 ### Phase 3 — 네트워크 / 웹
 
@@ -62,10 +63,10 @@ JVM이 메모리를 어떻게 관리하는지 이해한 뒤, 멀티스레드 프
 
 | 단원 | 주제 | 복습하는 이전 Phase | 규모 |
 |---|---|---|---|
-| `chapter12-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch11 스트림/`Channel`, try-with-resources | — |
-| `chapter13-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch05 sealed/record/pattern matching, ch04 Stream/Optional, ch02 HashMap(헤더 맵) | — |
-| `chapter14-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch07 Thread, ch08 Executor/`BlockingQueue`, ch10 Virtual Thread, ch06 가시성 | — |
-| `chapter15-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch01 제네릭, ch03 함수형 인터페이스, ch02 맵, ch05 record | — |
+| `chapter13-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch12 스트림/`Channel`, try-with-resources | — |
+| `chapter14-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch05 sealed/record/pattern matching, ch04 Stream/Optional, ch02 HashMap(헤더 맵) | — |
+| `chapter15-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch08 Thread, ch09 Executor/`BlockingQueue`, ch11 Virtual Thread, ch06 가시성 | — |
+| `chapter16-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch01 제네릭, ch03 함수형 인터페이스, ch02 맵, ch05 record | — |
 
 ## 실행
 

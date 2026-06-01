@@ -27,7 +27,7 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 | 단원 | 주제 | 규모 |
 |---|---|---|
 | `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 86 tests |
-| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시, `equals`/`hashCode` 계약 | 16 문제 · 51 tests |
+| `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시, `equals`/`hashCode` 계약 | 14 문제 · 38 tests |
 | `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
 | `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
 | `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |

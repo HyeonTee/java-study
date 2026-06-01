@@ -20,7 +20,7 @@
 
 ## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~13이 빌드되어 있다. (동시성 도구 ch10~13 완결, 다음은 ch14 io-basics)
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~14가 빌드되어 있다. (Phase 1·2 블록 완결, 다음은 Phase 3 ch15 tcp-socket-basics)
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -57,7 +57,7 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 | `chapter11-executor-blocking-queue` | `BlockingQueue`(wait/notify·Condition 2방식)·미니 스레드풀 직접 구현, Producer-Consumer | 17 문제 · 36 tests |
 | `chapter12-completable-future` | 미니 promise(콜백·합성) 직접 구현, `CompletableFuture` 파이프라인·예외 전파 | 18 문제 · 23 tests |
 | `chapter13-virtual-thread` | 가상 스레드(thread-per-task), structured concurrency 미니 스코프 직접 구현, 순서 보존 fan-out | 8 문제 · 18 tests |
-| `chapter14-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
+| `chapter14-io-basics` | 스트림 데코레이터·라인/길이 프레이밍·NIO `ByteBuffer`·try-with-resources(LIFO·suppressed) 직접 구현 | 18 문제 · 36 tests |
 
 ### Phase 3 — 네트워크 / 웹
 

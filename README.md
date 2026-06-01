@@ -22,6 +22,8 @@
 
 > **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~14가 빌드되어 있다. (Phase 1·2 블록 완결, 다음은 Phase 3 ch15 tcp-socket-basics)
 
+> **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-network/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
+
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
 Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구현해보고, Stream/Optional/함수형으로 선언적 코드 작성법을 익힌다.

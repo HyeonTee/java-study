@@ -22,7 +22,9 @@ ch06 메모리 모델   — 객체가 "어디"에 사는가
         ↓
 ch07 객체 모델     — 그 객체가 "무엇"인가  ← 지금 여기
         ↓
-ch08 thread-basics — 그 객체를 여럿이 "어떻게 공유"하는가
+ch08 리플렉션      — 그 객체/클래스를 런타임에 "들여다보고 조작"한다
+        ↓
+ch09 thread-basics — 그 객체를 여럿이 "어떻게 공유"하는가
 ```
 
 ---
@@ -154,7 +156,7 @@ List<Double> readings() { return List.copyOf(readings); }              // 출력
 
 ---
 
-## 중첩/내부 클래스와 캡처된 상태 — ch08로 가는 다리
+## 중첩/내부 클래스와 캡처된 상태 — ch09로 가는 다리
 
 - **비-static 내부 클래스**는 **숨은 바깥 인스턴스 참조(`Outer.this`)**를 들고 있다. 그래서 바깥 필드에 접근할 수 있다 — 그리고 바깥 객체를 도달 가능 상태로 **묶어 누수**시킬 수도 있다(ch06 도달성: 리스너 누수의 정체).
 - **static 중첩 클래스**는 그 참조가 없다(명시적으로 넘긴 것만 본다). ch01 `MyLinkedList`의 `private static class Node`가 그 예다.
@@ -162,7 +164,7 @@ List<Double> readings() { return List.copyOf(readings); }              // 출력
 
 `CounterFactory`에서 이를 직접 만든다: 각 카운터는 자기만의 독립된 카운트 상태를 캡처하고(메서드 수명을 넘겨 살아남고), 바깥 팩토리의 `factoryId`를 본다(바깥 인스턴스 캡처). 
 
-> ch08과의 선: "캡처한 가변 상태를 **여러 스레드**가 만지면?"은 ch08(안전 게시·동기화)로 미룬다. 여기서는 단일 스레드 의미론까지.
+> ch09과의 선: "캡처한 가변 상태를 **여러 스레드**가 만지면?"은 ch09(안전 게시·동기화)로 미룬다. 여기서는 단일 스레드 의미론까지.
 
 ---
 
@@ -173,7 +175,7 @@ List<Double> readings() { return List.copyOf(readings); }              // 출력
 - **`hashCode`의 버킷/해시 분포** → ch02 소관. 여기서는 "equals와 일관" 계약만.
 - **GC 알고리즘·세대·`WeakReference`** → ch06. 내부 클래스 누수는 "강한 참조 한 줄이 바깥을 살린다"까지만.
 - **`record`/`sealed` 문법** → ch05. 여기서는 record 불변의 *한계*만 반증.
-- **동시성 안전 게시(safe publication)** → ch08.
+- **동시성 안전 게시(safe publication)** → ch09.
 - **리플렉션 / `MethodHandle` / `invokedynamic`**, **클래스로더 상세**, **`clone()`/`Cloneable`**, **`finalize()`** → 제외(디스패치는 vtable 개념 모델까지, clone 대신 방어적 복사·복사 생성자).
 
 ---

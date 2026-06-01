@@ -16,9 +16,9 @@
 4. `src/main/java` 안의 빈 구현을 채워서 테스트를 초록불로 만든다.
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
-## 커리큘럼 (17단원, 3 Phase)
+## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~09가 빌드되어 있다.
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~10이 빌드되어 있다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -28,33 +28,34 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 |---|---|---|
 | `chapter01-generics-collections` | 제네릭, `MyArrayList`, `MyLinkedList` 직접 구현 | 2 클래스 · 86 tests |
 | `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시, `equals`/`hashCode` 계약 | 14 문제 · 38 tests |
-| `chapter03-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
-| `chapter04-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
-| `chapter05-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
+| `chapter03-sorting-trees` | `Comparator` 합성, 이진탐색트리, `TreeMap`(정렬 맵), 최소 힙 직접 구현 | 28 문제 · 42 tests |
+| `chapter04-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
+| `chapter05-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
+| `chapter06-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
 ### Phase 2로 넘어가기 전 — 선수 개념 점검
 
 
 | 선수 개념 | 왜 필요한가 | 어디서 다지나 |
 |---|---|---|
-| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch07에서 계약 자체를 작성 |
-| 검사 예외(checked) + wrap-and-rethrow | ch08 리플렉션 예외 래핑, ch11 예외 전파, ch13 `IOException`, ch14 소켓 | ch03 `ThrowingFunction` 문제 |
-| try-with-resources / `AutoCloseable` | ch13 IO, ch14 소켓 수명주기 | ch13에서 본격적으로 |
+| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch08에서 계약 자체를 작성 |
+| 검사 예외(checked) + wrap-and-rethrow | ch09 리플렉션 예외 래핑, ch12 예외 전파, ch14 `IOException`, ch15 소켓 | ch04 `ThrowingFunction` 문제 |
+| try-with-resources / `AutoCloseable` | ch14 IO, ch15 소켓 수명주기 | ch14에서 본격적으로 |
 
 ### Phase 2 — JVM / 동시성
 
-JVM이 메모리를 어떻게 관리하는지(ch06) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch07 객체 모델 → ch08 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
+JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch08 객체 모델 → ch09 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter06-jvm-memory-model` | 도달성 분석(mark-sweep) 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 6 문제 · 17 tests |
-| `chapter07-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
-| `chapter08-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
-| `chapter09-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
-| `chapter10-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
-| `chapter11-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
-| `chapter12-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
-| `chapter13-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
+| `chapter07-jvm-memory-model` | 도달성 분석(mark-sweep) 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 6 문제 · 17 tests |
+| `chapter08-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
+| `chapter09-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
+| `chapter10-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
+| `chapter11-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
+| `chapter12-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
+| `chapter13-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
+| `chapter14-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |
 
 ### Phase 3 — 네트워크 / 웹
 
@@ -64,10 +65,10 @@ JVM이 메모리를 어떻게 관리하는지(ch06) 이해하고, 객체·클래
 
 | 단원 | 주제 | 복습하는 이전 Phase | 규모 |
 |---|---|---|---|
-| `chapter14-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch13 스트림/`Channel`, try-with-resources | — |
-| `chapter15-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch05 sealed/record/pattern matching, ch04 Stream/Optional, ch02 HashMap(헤더 맵) | — |
-| `chapter16-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch09 Thread, ch10 Executor/`BlockingQueue`, ch12 Virtual Thread, ch06 가시성 | — |
-| `chapter17-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch08 리플렉션·애너테이션(`@Route` 스캔 라우팅), ch01 제네릭, ch03 함수형 인터페이스, ch02 맵, ch05 record | — |
+| `chapter15-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch14 스트림/`Channel`, try-with-resources | — |
+| `chapter16-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch06 sealed/record/pattern matching, ch05 Stream/Optional, ch02 HashMap(헤더 맵) | — |
+| `chapter17-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch10 Thread, ch11 Executor/`BlockingQueue`, ch13 Virtual Thread, ch07 가시성 | — |
+| `chapter18-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch09 리플렉션·애너테이션(`@Route` 스캔 라우팅), ch01 제네릭, ch04 함수형 인터페이스, ch02 맵, ch06 record | — |
 
 ## 실행
 

@@ -180,7 +180,7 @@ ch06의 원칙을 그대로 따른다: **잘못된 구현이 초록불이 되거
 
 ## 연습 문제
 
-> 권장 순서: `UnsafeCounter`를 먼저 실행해 "왜 깨지는지" 본 뒤 → `SafeCounter`로 고치고 → `AtomicAccount`(CAS) → `StoppableWorker`(volatile).
+> 권장 순서: `UnsafeCounter`를 먼저 실행해 "왜 깨지는지" 본 뒤 → `SafeCounter`(synchronized) → `StoppableWorker`(volatile) → `AtomicAccount`(CAS). 가시성만 주는 `volatile`을 먼저, 원자적 갱신까지 가는 CAS를 마지막에 두어 난이도가 단조 증가한다(위 "큰 그림" 다이어그램 순서와 동일).
 
 ### ParallelSum (1문제) — Thread / join 입문 · 결정적
 
@@ -202,9 +202,21 @@ ch06의 원칙을 그대로 따른다: **잘못된 구현이 초록불이 되거
 | `reset()` | 0으로 (역시 보호) |
 | — 고경합 테스트 | 16스레드 × 1만회 → 정확히 160000 (`@RepeatedTest`) |
 
+### StoppableWorker (4문제) — volatile 정지 플래그 · 채점("멈춘다")
+
+다른 스레드가 보낸 정지 신호를 받고 협력적으로 멈추는 작업 루프. 정지 플래그는 **반드시 `volatile`**이어야 한다(아니면 가시성 문제로 무한 루프 — ch06 `VisibilityDemo` 참고). `volatile`은 **가시성만** 주므로 단순 쓰기(플래그)에는 충분하다 — 다음 `AtomicAccount`에서 "가시성만으로는 부족한" 원자성 문제로 넘어간다.
+
+| 메서드 | 핵심 |
+|---|---|
+| `run()` | 정지 요청 전까지 `unitOfWork` 반복, 사이클 수 증가 |
+| `requestStop()` | 정지 플래그를 `true`로 (다른 스레드가 호출 — 가시성 핵심) |
+| `isRunning()` | 루프 진행 중 여부 |
+| `completedCycles()` | 완료 사이클 수 |
+| — 종료 테스트 | `@Timeout` — 신호 후 `join()`이 끝나야 통과(무한 루프면 타임아웃 실패) |
+
 ### AtomicAccount (5문제) — Atomic & CAS 루프 · 채점
 
-락 없이 원자적으로 갱신되는 계좌. 단순 누적(`deposit`)은 `addAndGet`으로, 조건부 갱신(`withdraw`)은 **CAS 재시도 루프**로 직접 구현한다.
+락 없이 원자적으로 갱신되는 계좌. 단순 누적(`deposit`)은 `addAndGet`으로, 조건부 갱신(`withdraw`)은 **CAS 재시도 루프**로 직접 구현한다. (`volatile`은 가시성만 주지 read-modify-write의 원자성은 못 준다 — 그래서 CAS가 필요하다.)
 
 | 메서드 | 핵심 |
 |---|---|
@@ -214,18 +226,6 @@ ch06의 원칙을 그대로 따른다: **잘못된 구현이 초록불이 되거
 | `withdraw(amount)` | **CAS 루프** — 충분할 때만 차감, 부족하면 `false` |
 | `depositCount()` | 성공한 입금 횟수 |
 | — 보존 테스트 | 입금/출금 혼합 후 `잔액 == 초기 + 입금합 − 출금합`, 잔액 ≥ 0 |
-
-### StoppableWorker (4문제) — volatile 정지 플래그 · 채점("멈춘다")
-
-다른 스레드가 보낸 정지 신호를 받고 협력적으로 멈추는 작업 루프. 정지 플래그는 **반드시 `volatile`**이어야 한다(아니면 가시성 문제로 무한 루프 — ch06 `VisibilityDemo` 참고).
-
-| 메서드 | 핵심 |
-|---|---|
-| `run()` | 정지 요청 전까지 `unitOfWork` 반복, 사이클 수 증가 |
-| `requestStop()` | 정지 플래그를 `true`로 (다른 스레드가 호출 — 가시성 핵심) |
-| `isRunning()` | 루프 진행 중 여부 |
-| `completedCycles()` | 완료 사이클 수 |
-| — 종료 테스트 | `@Timeout` — 신호 후 `join()`이 끝나야 통과(무한 루프면 타임아웃 실패) |
 
 ### UnsafeCounter (데모 — 채점 안 함)
 

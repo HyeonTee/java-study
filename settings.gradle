@@ -1,11 +1,18 @@
 rootProject.name = 'java-study'
 
+// 단원은 Phase별 폴더로 묶여 있지만, Gradle 프로젝트 이름은 평면(:chapterNN-주제)으로 유지한다.
+// 그래서 테스트 명령은 그대로다: ./gradlew :chapter10-thread-basics:test
+// (폴더 위치만 projectDir로 지정한다.)
+
+// ── Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법 ──────────────
 include 'chapter01-generics-collections'
 include 'chapter02-hashmap-lru'
 include 'chapter03-sorting-trees'
 include 'chapter04-functional-interface'
 include 'chapter05-stream-optional'
 include 'chapter06-modern-java-syntax'
+
+// ── Phase 2 — JVM / 동시성 / IO ──────────────────────────────────
 include 'chapter07-jvm-memory-model'
 include 'chapter08-object-model'
 include 'chapter09-reflection-annotations'
@@ -14,3 +21,14 @@ include 'chapter11-executor-blocking-queue'
 include 'chapter12-completable-future'
 include 'chapter13-virtual-thread'
 include 'chapter14-io-basics'
+
+// 물리 폴더 위치 매핑 (이름은 평면 유지)
+['chapter01-generics-collections', 'chapter02-hashmap-lru', 'chapter03-sorting-trees',
+ 'chapter04-functional-interface', 'chapter05-stream-optional', 'chapter06-modern-java-syntax'].each {
+    project(":$it").projectDir = file("phase1-foundations/$it")
+}
+['chapter07-jvm-memory-model', 'chapter08-object-model', 'chapter09-reflection-annotations',
+ 'chapter10-thread-basics', 'chapter11-executor-blocking-queue', 'chapter12-completable-future',
+ 'chapter13-virtual-thread', 'chapter14-io-basics'].each {
+    project(":$it").projectDir = file("phase2-jvm-concurrency/$it")
+}

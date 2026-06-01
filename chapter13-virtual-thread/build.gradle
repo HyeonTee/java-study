@@ -1,0 +1,6 @@
+// 이 단원의 모든 설정은 루트 build.gradle의 subprojects 블록에서 상속받습니다.
+// 단원별로 의존성을 추가해야 하면 여기에 작성하세요.
+//
+// 참고: 가상 스레드(Thread.ofVirtual 등)는 Java 21 정식 API라 추가 설정이 필요 없습니다.
+// 표준 StructuredTaskScope는 프리뷰(--enable-preview)라 의도적으로 쓰지 않고,
+// 구조적 동시성을 MyTaskScope로 직접 구현합니다(빌드 안정성 + "내부 직접 구현" 정체성).

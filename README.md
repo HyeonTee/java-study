@@ -4,6 +4,8 @@
 
 **대상**: Java 기초를 마치고 자료구조·동시성·네트워크를 깊이 파고들려는 개발자.
 
+> **이 저장소가 기르는 것**은 `HashMap`·`Stream`·동적 디스패치·HTTP 서버를 *직접 구현*해본, **Java 내부와 런타임을 깊이 이해하는 백엔드 엔지니어**다. 반대로 Spring·빌드 도구·ORM·관측성 같은 *기존 생태계 활용*은 의도적으로 제외했다 — 내부를 알면 그 위는 빠르게 배운다. 즉 "Java 전문가"라는 말의 넓이보다 **"라이브러리·런타임 내부"의 깊이**를 목표로 한다.
+
 ## 학습 방식
 
 각 단원은 **이론 `README.md` + 빈 구현(인터페이스 + 스텁) + 실패하는 테스트** 형태로 제공된다. 테스트가 통과하도록 직접 구현하며 학습한다. 정답 코드는 제공하지 않는다.
@@ -30,7 +32,7 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 | `chapter02-hashmap-lru` | `HashMap` 직접 구현, LRU 캐시, `equals`/`hashCode` 계약 | 14 문제 · 38 tests |
 | `chapter03-sorting-trees` | `Comparator` 합성, 이진탐색트리, `TreeMap`(정렬 맵), 최소 힙 직접 구현 | 28 문제 · 42 tests |
 | `chapter04-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
-| `chapter05-stream-optional` | Stream API, `Optional` | 20 문제 · 62 tests |
+| `chapter05-stream-optional` | Stream API, `Optional`, `Collector` 직접 구현 | 23 문제 · 71 tests |
 | `chapter06-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
 
 ### Phase 2로 넘어가기 전 — 선수 개념 점검
@@ -48,7 +50,7 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter07-jvm-memory-model` | 도달성 분석(mark-sweep) 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 6 문제 · 17 tests |
+| `chapter07-jvm-memory-model` | 도달성 분석(mark-sweep)·세대별 GC 시뮬레이션 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 12 문제 · 23 tests |
 | `chapter08-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
 | `chapter09-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
 | `chapter10-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |

@@ -167,3 +167,13 @@ opt.orElseGet(() -> expensiveCall()); // opt에 값이 없을 때만 실행
 | 6 | `toUpperIfPresent` | map |
 | 7 | `firstChar` | flatMap |
 | 8 | `filterByLength` | filter |
+
+### MyCollectors (3문제) — `Collector` 직접 구현
+
+`StreamPractice`에서 `Collectors`를 **사용**했다면, 여기서는 그 내부를 만든다. `Collector`의 네 조각(supplier/accumulator/combiner/finisher)을 `Collector.of`로 조립한다. 특히 **combiner**는 병렬 스트림에서 부분 결과를 합칠 때 호출된다 — 이게 "왜 reduce에 combiner가 필요한가"의 답이고, 테스트가 `parallel()`로 이를 강제한다.
+
+| # | 메서드 | 핵심 |
+|---|---|---|
+| 1 | `counting()` | 개수 세기 (가변 카운터 + combiner로 합산) |
+| 2 | `joining(delimiter)` | 구분자 조인 (병렬 combiner의 빈 조각 주의) |
+| 3 | `groupingBy(classifier)` | 키별 리스트 묶기 (맵 병합 combiner) |

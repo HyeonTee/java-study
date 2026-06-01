@@ -20,7 +20,7 @@
 
 ## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~10이 빌드되어 있다.
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~11이 빌드되어 있다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -54,7 +54,7 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 | `chapter08-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
 | `chapter09-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
 | `chapter10-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
-| `chapter11-executor-blocking-queue` | `ExecutorService`, ThreadPool, `BlockingQueue`, Producer-Consumer | — |
+| `chapter11-executor-blocking-queue` | `BlockingQueue`(wait/notify·Condition 2방식)·미니 스레드풀 직접 구현, Producer-Consumer | 17 문제 · 36 tests |
 | `chapter12-completable-future` | `CompletableFuture`, 비동기 파이프라인, 예외 전파 | — |
 | `chapter13-virtual-thread` | Project Loom, Virtual Thread, structured concurrency | — |
 | `chapter14-io-basics` | `InputStream`/`OutputStream`, `Reader`/`Writer`, NIO `ByteBuffer`/`Channel`, try-with-resources | — |

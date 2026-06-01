@@ -599,6 +599,17 @@ ref.get();   // 살아 있으면 배열, GC가 수거했으면 null
 | 2 | `get(k)` | 살아 있으면 값, 수거됐으면 `Optional.empty()` |
 | 3 | `size()` | 아직 살아 있는 항목 수 |
 
+### GenerationalHeap (6문제) — Minor GC·객체 승격 시뮬레이션
+
+세대별 GC의 핵심(Eden→Survivor→Old 승격)을 **결정적 모형**으로 구현한다. `System.gc()`에 의존하지 않으므로 채점 가능하다 — 위에서 이론으로만 본 세대·승격·age를 코드로 증명한다. `ReachabilityAnalyzer.reachable`을 재사용해 도달성을 판단한다(그 문제를 먼저 푼다).
+
+| # | 메서드 | 핵심 |
+|---|---|---|
+| 1 | `allocate(obj)` | young 세대에 age 0으로 할당 |
+| 2 | `youngCount` / `oldCount` / `isInOldGen` | 세대 상태 조회 |
+| 3 | `ageOf(obj)` | 생존한 Minor GC 횟수 (young에 없으면 −1) |
+| 4 | `minorGc(roots, threshold)` | 도달 가능 young은 age++/임계값 이상이면 승격, 불가능은 수거. old는 보존 |
+
 ### VisibilityDemo (데모 — 채점 안 함)
 
 `volatile` 유무에 따른 가시성 차이를 직접 실행해 관찰하는 데모 클래스. 위 "왜 데모인가" 절 참고.

@@ -1,0 +1,5 @@
+// 이 단원의 모든 설정은 루트 build.gradle의 subprojects 블록에서 상속받습니다.
+// 단원별로 의존성을 추가해야 하면 여기에 작성하세요.
+//
+// 주: 진짜 소켓 테스트(SocketIntegrationTest)도 loopback + ephemeral port(:0) + @Timeout으로
+//     길들여 기본 test에 포함됩니다. @Tag/커스텀 테스트 태스크 같은 별도 인프라는 두지 않습니다.

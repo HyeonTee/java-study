@@ -20,9 +20,9 @@
 
 ## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~14가 빌드되어 있다. (Phase 1·2 블록 완결, 다음은 Phase 3 ch15 tcp-socket-basics)
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~15가 빌드되어 있다. (Phase 1·2 블록 완결, Phase 3는 ch15 tcp-socket 빌드됨 — 다음은 ch16 http-protocol)
 
-> **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-network/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
+> **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-networking/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
@@ -69,7 +69,7 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 
 | 단원 | 주제 | 복습하는 이전 Phase | 규모 |
 |---|---|---|---|
-| `chapter15-tcp-socket-basics` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 라인 단위 프레이밍 | ch14 스트림/`Channel`, try-with-resources | — |
+| `chapter15-tcp-socket` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 스트림 위 프로토콜·라인/길이 프레이밍·half-close(`shutdownOutput`) | ch14 `LineReader`/`FrameCodec`/`closeAll`, try-with-resources | 19 문제 · 33 tests |
 | `chapter16-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` vs chunked), `sealed`+`record`로 메시지 모델링, 미니 HTTP 클라이언트로 검증 | ch06 sealed/record/pattern matching, ch05 Stream/Optional, ch02 HashMap(헤더 맵) | — |
 | `chapter17-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch10 Thread, ch11 Executor/`BlockingQueue`, ch13 Virtual Thread, ch07 가시성 | — |
 | `chapter18-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch09 리플렉션·애너테이션(`@Route` 스캔 라우팅), ch01 제네릭, ch04 함수형 인터페이스, ch02 맵, ch06 record | — |

@@ -25,6 +25,7 @@ include 'chapter14-io-basics'
 // ── Phase 3 — 네트워크 (소켓 / HTTP) ─────────────────────────────
 include 'chapter15-tcp-socket'
 include 'chapter16-http-protocol'
+include 'chapter17-concurrent-http-server'
 
 // 물리 폴더 위치 매핑 (이름은 평면 유지)
 ['chapter01-generics-collections', 'chapter02-hashmap-lru', 'chapter03-sorting-trees',
@@ -36,6 +37,6 @@ include 'chapter16-http-protocol'
  'chapter13-virtual-thread', 'chapter14-io-basics'].each {
     project(":$it").projectDir = file("phase2-jvm-concurrency/$it")
 }
-['chapter15-tcp-socket', 'chapter16-http-protocol'].each {
+['chapter15-tcp-socket', 'chapter16-http-protocol', 'chapter17-concurrent-http-server'].each {
     project(":$it").projectDir = file("phase3-networking/$it")
 }

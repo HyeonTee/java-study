@@ -20,7 +20,7 @@
 
 ## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~16이 빌드되어 있다. (Phase 1·2 블록 완결, Phase 3는 ch15 tcp-socket·ch16 http-protocol 빌드됨 — 다음은 ch17 concurrent-http-server)
+> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. 진행하면서 추가된다. 현재 ch01~17이 빌드되어 있다. (Phase 1·2 블록 완결, Phase 3는 ch15 tcp-socket·ch16 http-protocol·ch17 concurrent-http-server 빌드됨 — 다음은 ch18 mini-web-framework). **ch17은 이 레포에서 유일하게 Gradle 의존(`implementation project(':chapter16-http-protocol')`)을 갖는다** — ch16 파서를 복사 대신 실제 의존으로 끌어오므로, `main`에선 ch16·ch17 스텁이 둘 다라 ch17 테스트가 전부 빨간불이다(`solve`에서 ch16까지 풀면 초록불).
 
 > **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-networking/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
 
@@ -71,7 +71,7 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 |---|---|---|---|
 | `chapter15-tcp-socket` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 스트림 위 프로토콜·라인/길이 프레이밍·half-close(`shutdownOutput`) | ch14 `LineReader`/`FrameCodec`/`closeAll`, try-with-resources | 19 문제 · 33 tests |
 | `chapter16-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` + chunked 디코더), `sealed`+`record`로 메시지 모델링, case-insensitive 헤더 맵, 미니 HTTP 클라이언트(실소켓 1왕복) | ch15 `LineProtocol.readLine`·`readFully`/Content-Length·CRLF·half-close, ch06 sealed/record/pattern matching, ch05 Optional, ch02 HashMap(헤더 맵), ch04 검사 예외 | 18 문제 · 47 tests |
-| `chapter17-concurrent-http-server` | 동일 서버를 단일스레드 → 스레드/연결 → 스레드풀 → 가상스레드/연결로 진화, keep-alive 연결 루프, 부하 테스트 | ch10 Thread, ch11 Executor/`BlockingQueue`, ch13 Virtual Thread, ch07 가시성 | — |
+| `chapter17-concurrent-http-server` | ch16 1왕복 핸들러를 keep-alive 연결 루프(한 소켓 N요청) × 교체 가능한 `Executor`(caller-runs → 연결당 스레드 → 스레드풀 → 가상스레드)로 진화, `Connection` 협상·connection-close(EOF) 프레이밍·DoS 한계 enforce(431/413). **ch16을 Gradle 의존으로 끌어옴 → `main`에선 전부 빨간불** | ch16 `HttpParser`/`HttpMessageWriter`/`Headers`(Gradle 의존), ch15 `ServerSocket`·4규율, ch13 가상스레드, ch11 풀, ch10 Thread, ch07 가시성 | 21 문제 · 30 tests |
 | `chapter18-mini-web-framework` | 제네릭 `Handler<Req,Res>`, 라우트 테이블, 핸들러 체인(미들웨어), JSON 직렬화 직접 구현 | ch09 리플렉션·애너테이션(`@Route` 스캔 라우팅), ch01 제네릭, ch04 함수형 인터페이스, ch02 맵, ch06 record | — |
 
 ## 실행

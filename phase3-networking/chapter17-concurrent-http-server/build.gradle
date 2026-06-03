@@ -1,0 +1,9 @@
+// 이 단원은 ch16의 HTTP 메시지 계층(HttpParser·HttpMessageWriter·Headers·모델·BodyFraming·ChunkedBody)을
+// 그대로 재사용한다. 정답 노출을 피하려고 소스를 복사하지 않고 Gradle 프로젝트 의존으로 끌어온다.
+// 그래서 이 단원만 예외적으로 dependencies 블록을 둔다(나머지 단원은 루트 subprojects 상속, 빈 파일).
+//
+// 주의: main 브랜치의 ch16은 스텁(throw)이라, ch17 테스트는 ch16까지 푼 solve 브랜치에서야 초록불이 된다.
+//       main에서는 ch16·ch17 스텁이 모두 비어 있어 전부 빨간불(정상 TDD 상태).
+dependencies {
+    implementation project(':chapter16-http-protocol')
+}

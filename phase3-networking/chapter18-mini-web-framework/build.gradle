@@ -1,0 +1,13 @@
+// 저장소의 마지막 단원(캡스톤). ch17과 마찬가지로 dependencies 블록을 갖는다 — 다만 여기선 두 단원을 끌어온다:
+//   - ch17 concurrent-http-server: 봉합선 HttpHandler(이 자리에 ch18 라우터/미들웨어/JSON을 꽂는다)
+//   - ch16 http-protocol:           HttpRequest/HttpResponse/Headers 등 메시지 모델(어댑터가 직접 다룬다)
+// ch17의 ch16 의존은 implementation(비전이적)이라, ch18이 ch16 타입을 직접 쓰려면 ch16도 명시적으로 의존해야 한다.
+//
+// 설계 결정(사용자 확인): ch18은 "이전 챕터에서 구현한 것을 실제로 재사용"한다 — 봉합선을 문서가 아니라 진짜 타입으로
+// 증명. 그 대가로 main 브랜치에선 ch16·ch17 스텁 때문에 HTTP 봉합 테스트(SeamContractTest·FrameworkIntegrationTest)가
+// 빨간불이다. 단, 코어(Handler/Middleware/Router/PathPattern/JsonWriter/JsonReflect)는 HTTP 무관 제네릭이라
+// 이전 단원과 독립적으로 풀 수 있고, 챕터를 순서대로 풀면(ch16→ch17→ch18) 전부 초록불이 된다.
+dependencies {
+    implementation project(':chapter17-concurrent-http-server')
+    implementation project(':chapter16-http-protocol')
+}

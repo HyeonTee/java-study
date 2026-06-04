@@ -20,7 +20,7 @@
 
 ## 커리큘럼 (18단원, 3 Phase)
 
-> **규모** 열의 `—`는 아직 빌드되지 않은 단원(계획)이다. **이제 전 18단원이 빌드되어 있다**(Phase 1·2·3 블록 완결). **ch17·ch18은 Gradle 프로젝트 의존을 갖는 두 단원이다**: ch17은 `:chapter16-http-protocol`을, ch18은 `:chapter17-concurrent-http-server`+`:chapter16-http-protocol`을 복사 대신 실제 의존으로 끌어온다(이전 단원 구현 재사용). 그래서 `main`에선 두 단원의 HTTP 의존 테스트가 빨간불이고, 챕터를 순서대로 풀면 초록불이 된다. 단 **ch18 코어(제네릭 Handler/Router/Middleware/JSON)는 HTTP 무관이라 ch18만 풀어도 코어 테스트는 초록불**이다.
+> ⚠️ **ch17·ch18은 Gradle 프로젝트 의존을 갖는 두 단원이다**: ch17은 `:chapter16-http-protocol`을, ch18은 `:chapter17-concurrent-http-server`+`:chapter16-http-protocol`을 복사 대신 실제 의존으로 끌어온다(이전 단원 구현 재사용). 그래서 `main`에선 두 단원의 HTTP 의존 테스트가 빨간불이고, 챕터를 순서대로 풀면 초록불이 된다. 단 **ch18 코어(제네릭 Handler/Router/Middleware/JSON)는 HTTP 무관이라 ch18만 풀어도 코어 테스트는 초록불**이다.
 
 > **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-networking/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
 
@@ -39,16 +39,15 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 
 ### Phase 2로 넘어가기 전 — 선수 개념 점검
 
-
 | 선수 개념 | 왜 필요한가 | 어디서 다지나 |
 |---|---|---|
 | `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch08에서 계약 자체를 작성 |
 | 검사 예외(checked) + wrap-and-rethrow | ch09 리플렉션 예외 래핑, ch12 예외 전파, ch14 `IOException`, ch15 소켓 | ch04 `ThrowingFunction` 문제 |
 | try-with-resources / `AutoCloseable` | ch14 IO, ch15 소켓 수명주기 | ch14에서 본격적으로 |
 
-### Phase 2 — JVM / 동시성
+### Phase 2 — JVM / 동시성 / IO
 
-JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch08 객체 모델 → ch09 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다.
+JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch08 객체 모델 → ch09 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다. 마지막으로 스트림 I/O·프레이밍(ch14)으로 Phase 3 네트워크의 토대를 놓는다.
 
 | 단원 | 주제 | 규모 |
 |---|---|---|

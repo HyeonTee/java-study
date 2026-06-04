@@ -2,7 +2,7 @@
 
 > **선행 단원**: Chapter 16(http-protocol — `HttpParser.parse`/`parseResponse`, `HttpMessageWriter`, `Headers`, `BodyFraming`, `HttpProtocolException`, `record` 메시지 모델), Chapter 15(tcp-socket — `ServerSocket(:0)`·`ConnectionHandler` 경계·half-close·4규율), Chapter 13(가상 스레드), Chapter 11(스레드풀), Chapter 10(연결당 스레드), Chapter 07(`volatile` 가시성). **Phase 3의 세 번째 단원** — ch16이 만든 **1왕복 핸들러**를 `accept` 루프 + keep-alive 연결 루프 + 교체 가능한 동시성에 꽂는다.
 
-> **공식 문서**: [RFC 9112 (HTTP/1.1) §9 Connection Management](https://www.rfc-editor.org/rfc/rfc9112#section-9) · [RFC 9110 §6 Message Framing](https://www.rfc-editor.org/rfc/rfc9110) · [`java.util.concurrent.Executor`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html)
+> **공식 문서**: [RFC 9112 (HTTP/1.1) §9 Connection Management](https://www.rfc-editor.org/rfc/rfc9112#section-9) · [RFC 9112 §6.3 Message Body Length](https://www.rfc-editor.org/rfc/rfc9112#section-6.3) · [`java.util.concurrent.Executor`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html)
 
 > ⚠️ **이 단원은 Gradle 의존을 갖는 유일한 단원**이다 — `build.gradle`에 `implementation project(':chapter16-http-protocol')`. ch16의 파서/직렬화기를 **복사하지 않고 실제 의존으로 끌어온다.** 그래서 **`main` 브랜치에선 ch16·ch17 스텁이 둘 다라 ch17 테스트가 전부 빨간불**이다(정상). `solve`에서 ch16까지 푼 뒤에야 초록불이 된다.
 

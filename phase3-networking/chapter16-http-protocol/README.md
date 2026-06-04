@@ -92,7 +92,7 @@ ch15가 만든 `readLine`(라인)과 `readFully`(길이)를 **그대로** 빌딩
 CRLF                     ← 빈 줄로 종료
 ```
 
-- 크기는 **`Long.parseLong(s, 16)`** — `Integer.parseInt`는 `"80000000"` 이상에서 `NumberFormatException`(함정). 16진수는 대소문자 무관.
+- 크기는 **`Long.parseLong(s, 16)`** — `Integer.parseInt(s, 16)`은 `"80000000"`(= 0x80000000, `Integer.MAX_VALUE` 초과)에서 `NumberFormatException`(함정). 16진수는 대소문자 무관.
 - `0` 청크 뒤엔 **`readLine`이 빈 줄(`""`)을 반환할 때까지** 트레일러를 흡수(단일 CRLF 하나만 읽으면 트레일러 있는 스트림에서 깨짐).
 - 인코더·trailer 생성·chunk-extension 파싱은 **다루지 않는다**(이론).
 

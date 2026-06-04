@@ -18,9 +18,11 @@ put("apple", 1)
 ### 해시 함수와 인덱스 계산
 
 ```java
-int hash = key.hashCode();
-int index = hash % table.length;
+int hash = key.hashCode();              // 음수일 수 있다!
+int index = (table.length - 1) & hash;  // capacity가 2의 거듭제곱이면 mod와 같고 더 빠름
 ```
+
+> ⚠️ **`%`가 아니라 `(n-1) & hash`인 이유**: `hash % table.length`는 `hashCode()`가 **음수**면 음수 인덱스가 나와 `ArrayIndexOutOfBoundsException`이 난다. JDK처럼 capacity를 **2의 거듭제곱**으로 유지하고 `(table.length - 1) & hash`로 하위 비트만 남기면 음수 hash라도 항상 `[0, length)`에 떨어진다. 그래서 이 단원의 `indexFor` 스텁도 mod가 아니라 AND를 쓴다(capacity가 2의 거듭제곱이라는 전제 — 생성자에 그 값을 넣어야 한다).
 
 좋은 해시 함수는 키를 버킷에 **균등하게 분산**시킨다. 편향되면 한 버킷에 몰려 O(n)으로 퇴화한다.
 
@@ -81,7 +83,7 @@ resize는 O(n)이지만 발생 빈도가 낮아 amortized O(1)을 유지한다. 
 **put(key, value)**
 ```
 1. hash = key.hashCode()  (null key면 hash=0)
-2. index = hash % table.length
+2. index = (table.length - 1) & hash   (음수 hash 안전 + 2의 거듭제곱 capacity 전제)
 3. table[index]의 연결 리스트를 순회
    - key가 같은 Entry 발견 → value 교체, 이전 값 반환
    - 못 찾음 → 새 Entry를 리스트 앞에 삽입, size++

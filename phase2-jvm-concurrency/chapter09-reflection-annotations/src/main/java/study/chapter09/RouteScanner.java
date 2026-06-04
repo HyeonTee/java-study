@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * 객체를 스캔해 {@link Route} 붙은 메서드를 찾아 라우트 테이블을 만들고 경로로 디스패치한다 —
- * 이 단원의 간판. <strong>ch17 미니 웹 프레임워크가 부팅할 때 하는 바로 그 일이다.</strong>
+ * 이 단원의 간판. <strong>ch18 미니 웹 프레임워크가 부팅할 때 하는 바로 그 일이다.</strong>
  *
  * <p>ch08 {@code MethodTable.buildVTable}이 "이름 → body 문자열" 맵을 손으로 만들었다면, 여기서는
  * <strong>실제 애너테이션을 읽어</strong> "경로 → 진짜 {@link Method}" 맵을 만들고, 그 {@code Method}를

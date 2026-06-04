@@ -1,6 +1,6 @@
 # Chapter 07 — JVM 메모리 모델
 
-> **선행 단원**: Phase 1(Chapter 01~05)의 Java 문법과 표준 API를 익힌 상태에서 진행한다. 특히 Chapter 01에서 다룬 `new`를 통한 객체 생성, Chapter 06의 `record`가 힙에 어떻게 저장되는지를 이 단원에서 JVM 관점으로 다시 본다.
+> **선행 단원**: Phase 1(Chapter 01~06)의 Java 문법과 표준 API를 익힌 상태에서 진행한다. 특히 Chapter 01에서 다룬 `new`를 통한 객체 생성, Chapter 06의 `record`가 힙에 어떻게 저장되는지를 이 단원에서 JVM 관점으로 다시 본다.
 
 > **공식 문서**: [JVM Specification Ch.2 — Run-Time Data Areas](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html#jvms-2.5) · [Java Memory Model (JLS 17.4)](https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.4) · [HotSpot GC Tuning Guide](https://docs.oracle.com/en/java/javase/21/gctuning/)
 

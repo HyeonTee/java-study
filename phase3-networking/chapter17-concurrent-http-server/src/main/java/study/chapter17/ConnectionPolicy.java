@@ -57,11 +57,14 @@ public final class ConnectionPolicy {
      * 응답이 <strong>길이를 확정하지 못했으면</strong>(바디가 있는데 {@code Content-Length}도 chunked도 없음) keep-alive
      * 불가 → 반드시 close여야 한다. README 모순 박스의 코드화("길이 못 정함 → close").
      *
-     * <p>힌트: {@code res.body().length > 0 && res.headers().contentLength().isEmpty() && !res.headers().isChunked()}.
-     * ({@link Responses} 빌더로 만든 응답이면 항상 길이가 확정돼 {@code false}여야 정상.)
+     * <p>힌트: {@code res.body().length > 0 && res.headers().get("Content-Length").isEmpty() && !res.headers().isChunked()}.
+     * <strong>길이의 '존재 여부'만 보면 되므로 {@code get("Content-Length").isEmpty()}로 판정한다</strong> — ch16
+     * {@code Headers.contentLength()}는 값을 파싱하느라 검사 예외({@code HttpProtocolException})를 던지는데, 이 메서드엔
+     * {@code throws} 절이 없어 그대로 쓰면 컴파일이 안 된다(값이 아니라 헤더 유무만 필요). ({@link Responses} 빌더로 만든
+     * 응답이면 항상 길이가 확정돼 {@code false}여야 정상.)
      */
     public static boolean responseMustClose(HttpResponse res) {
         throw new UnsupportedOperationException(
-                "TODO: 바디>0인데 contentLength 없고 chunked도 아니면 true(길이 미확정→close). 아니면 false");
+                "TODO: 바디>0인데 Content-Length 헤더 없고(get(\"Content-Length\").isEmpty()) chunked도 아니면 true(길이 미확정→close). 아니면 false");
     }
 }

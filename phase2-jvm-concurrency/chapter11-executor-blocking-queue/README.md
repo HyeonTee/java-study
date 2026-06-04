@@ -68,7 +68,7 @@ if    (비었음) wait();   // X — 버그
 
 **핵심 이득 — 조건을 둘로 나눈다.** 한 락에 `Condition`을 여러 개 걸 수 있다. 자리가 없어 막힌 **생산자는 `notFull`**에서, 원소가 없어 막힌 **소비자는 `notEmpty`**에서 따로 잔다. 원소를 하나 넣은 뒤엔 `notEmpty.signal()`로 **소비자만 콕 집어** 깨운다 — `notifyAll`로 무관한 생산자까지 깨우던 낭비가 사라진다. **이것이 bounded queue에서 `ReentrantLock`을 쓰는 결정적 이유.**
 
-주의: `await()`도 `while` 가드 필수. `unlock()`은 반드시 `finally`(예외 나도 락 해제). `synchronized`의 추가 능력: `tryLock()`/시한부/`lockInterruptibly()`/공정성/다중 Condition.
+주의: `await()`도 `while` 가드 필수. `unlock()`은 반드시 `finally`(예외 나도 락 해제). `synchronized`에는 없고 `ReentrantLock`에만 있는 능력: `tryLock()`/시한부/`lockInterruptibly()`/공정성/다중 Condition.
 
 ---
 

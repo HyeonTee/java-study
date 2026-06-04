@@ -118,7 +118,7 @@ ch09 `RouteScanner.scan`은 이미 `@Route`를 리플렉션으로 읽어 `경로
 ## 결정성 — 코어는 자립, 봉합선만 의존
 
 > 📦 **두 종류의 테스트, 두 종류의 빨간불**
-> - **코어 테스트**(`HandlerComposition`·`MiddlewareOnion`·`MiddlewareError`·`PathPattern`·`RouterMatch`·`RouterDispatch`·`JsonWriter`·`JsonReflect`): HTTP 무관 제네릭이라 ch16/ch17과 **독립**. `main`에선 ch18 스텁 때문에만 빨간불 → **ch18 코어만 풀면 초록불**(소켓·스레드·sleep 0, 100% 인메모리·결정적). 요청 픽스처로 ch16 `HttpRequest`(record)를 쓰지만 `Headers.with/get` 같은 스텁 로직은 건드리지 않는다.
+> - **코어 테스트**(`HandlerComposition`·`MiddlewareOnion`·`MiddlewareError`·`PathPattern`·`RouterMatch`·`RouterDispatch`·`JsonWriter`·`JsonReflect`): HTTP 무관 제네릭이라 ch16/ch17과 **독립**. `main`에선 ch18 스텁 때문에만 빨간불 → **ch18 코어만 풀면 초록불**(소켓·스레드·sleep 0, 100% 인메모리·결정적). 요청 픽스처도 ch16에 의존하지 않는다 — 경량 `String`·`TestRoute`·`User`만 쓴다(진짜 ch16 `HttpRequest`는 `http` 패키지 봉합 테스트에서만 등장한다).
 > - **봉합 테스트**(`SeamContract`·`FrameworkIntegration`): 진짜 ch16 `Headers.with/get`·ch17 `Responses`를 거치므로, ch16까지 풀어야 초록불(B 결합의 의도된 대가). 단 여기서도 **소켓은 없다** — `HttpHandler`는 순수 함수라 `handle(HttpRequest)`를 직접 호출해 검증한다.
 
 비결정성(진짜 소켓·동시성)은 ch17이 이미 다뤘다. ch18은 순수 로직이라 `@Timeout`·`CountDownLatch`가 0개다.

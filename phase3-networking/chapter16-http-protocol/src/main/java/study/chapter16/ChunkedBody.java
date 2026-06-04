@@ -34,8 +34,8 @@ public final class ChunkedBody {
      * <p>힌트(반복 루프, {@link HttpParser#readLine}/{@link HttpParser#readFully} 재사용):
      * <ol>
      *   <li>크기 줄을 {@code readLine}으로 읽고 {@code ';'}로 split해 <strong>앞부분만</strong> 취해 {@code trim}
-     *       (chunk-extension 버림), {@code Long.parseLong(size, 16)}로 파싱. <strong>{@code Integer.parseInt} 금지</strong>
-     *       — {@code "80000000"} 이상에서 {@code NumberFormatException}. 16진수는 대소문자 무관.</li>
+     *       (chunk-extension 버림), {@code Long.parseLong(size, 16)}로 파싱. <strong>{@code Integer.parseInt(size, 16)} 금지</strong>
+     *       — {@code "80000000"}(= 0x80000000, {@code int} 범위 초과)에서 {@code NumberFormatException}. 16진수는 대소문자 무관.</li>
      *   <li>크기가 {@code 0}이면 종료 — 단, {@code readLine}이 <strong>빈 줄({@code ""})을 반환할 때까지</strong> 트레일러
      *       줄들을 흡수하라(단일 CRLF 하나만 읽으면 트레일러 있는 스트림에서 깨진다).</li>
      *   <li>아니면 그 크기만큼 {@code readFully}로 청크 데이터를 읽어 누적({@code ByteArrayOutputStream} 감각),

@@ -8,9 +8,9 @@
 
 ## 왜 이 단원이 생겼나
 
-지금까지 예외는 커리큘럼 곳곳에 **파편**으로만 등장했다. ch04에서 "검사예외를 람다 안에서 던질 수 없어 RuntimeException으로 감싸야 한다"는 문제를 잠깐 만났고, 뒤의 ch15(io-basics)에서는 try-with-resources를 파일 입출력의 부속물로 다룰 것이다. 정작 **"예외 모델 그 자체"** — 어떤 예외를 검사로 둘지, 계층을 어떻게 닫을지, 원인을 어떻게 보존할지 — 를 정면으로 가르친 적이 없었다. 이 단원이 그 공백을 메운다.
+지금까지 예외는 커리큘럼 곳곳에 **파편**으로만 등장했다. ch04에서 "검사예외를 람다 안에서 던질 수 없어 RuntimeException으로 감싸야 한다"는 문제를 잠깐 만났고, 뒤의 ch16(io-basics)에서는 try-with-resources를 파일 입출력의 부속물로 다룰 것이다. 정작 **"예외 모델 그 자체"** — 어떤 예외를 검사로 둘지, 계층을 어떻게 닫을지, 원인을 어떻게 보존할지 — 를 정면으로 가르친 적이 없었다. 이 단원이 그 공백을 메운다.
 
-그래서 이 단원은 phase1의 **토대 마무리**다. 뒤에서 예외가 다시 등장할 때 — ch10(reflection-annotations), ch15(io-basics, try-with-resources), ch17(http-protocol), ch18(concurrent-http-server), ch19(mini-web-framework)가 전부 **커스텀 예외를 정의·전파**한다 — 그때 "왜 이렇게 설계하나"를 여기서 한 번 정립해 두면 매번 다시 고민하지 않아도 된다.
+그래서 이 단원은 phase1의 **토대 마무리**다. 뒤에서 예외가 다시 등장할 때 — ch10(reflection-annotations), ch16(io-basics, try-with-resources), ch18(http-protocol), ch19(concurrent-http-server), ch20(mini-web-framework)가 전부 **커스텀 예외를 정의·전파**한다 — 그때 "왜 이렇게 설계하나"를 여기서 한 번 정립해 두면 매번 다시 고민하지 않아도 된다.
 
 ---
 
@@ -196,4 +196,4 @@ Supplier<String> s = () -> Files.readString(path); // IOException 검사예외!
 
 5. **suppressed 예외를 무시하면?** primary만 보고 close 실패를 흘리면, 예컨대 "파일은 썼지만 flush/close에 실패해 데이터가 안 남은" 사고를 놓친다. close 예외가 *때로는* 더 중요한 경우는 언제인가?
 
-6. **앞으로의 연결** — ch15(try-with-resources로 파일·스트림), ch17~ch19(HTTP 계층의 커스텀 예외)에서 이 5축이 어떻게 재등장할지 미리 그려 보라. 특히 ch19 미니 웹 프레임워크의 예외→HTTP 상태 코드 매핑은 2축(닫힌 계층)이 빛나는 자리다.
+6. **앞으로의 연결** — ch16(try-with-resources로 파일·스트림), ch18~ch20(HTTP 계층의 커스텀 예외)에서 이 5축이 어떻게 재등장할지 미리 그려 보라. 특히 ch20 미니 웹 프레임워크의 예외→HTTP 상태 코드 매핑은 2축(닫힌 계층)이 빛나는 자리다.

@@ -1,0 +1,5 @@
+// 이 단원의 모든 설정은 루트 build.gradle의 subprojects 블록에서 상속받습니다.
+// 단원별로 의존성을 추가해야 하면 여기에 작성하세요.
+//
+// 주: HTTP 파싱/직렬화는 전부 in-memory(BAIS/BAOS)라 결정적입니다. 실소켓 round-trip 테스트도
+//     ch16와 동일하게 loopback + ephemeral port(:0) + @Timeout + half-close로 길들여 기본 test에 포함합니다.

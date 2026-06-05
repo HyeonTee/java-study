@@ -1,7 +1,7 @@
 rootProject.name = 'java-study'
 
 // 단원은 Phase별 폴더로 묶여 있지만, Gradle 프로젝트 이름은 평면(:chapterNN-주제)으로 유지한다.
-// 그래서 테스트 명령은 그대로다: ./gradlew :chapter10-thread-basics:test
+// 그래서 테스트 명령은 그대로다: ./gradlew :chapter11-thread-basics:test
 // (폴더 위치만 projectDir로 지정한다.)
 
 // ── Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법 ──────────────
@@ -11,34 +11,36 @@ include 'chapter03-sorting-trees'
 include 'chapter04-functional-interface'
 include 'chapter05-stream-optional'
 include 'chapter06-modern-java-syntax'
+include 'chapter07-exception-model'
 
 // ── Phase 2 — JVM / 동시성 / IO ──────────────────────────────────
-include 'chapter07-jvm-memory-model'
-include 'chapter08-object-model'
-include 'chapter09-reflection-annotations'
-include 'chapter10-thread-basics'
-include 'chapter11-executor-blocking-queue'
-include 'chapter12-completable-future'
-include 'chapter13-virtual-thread'
-include 'chapter14-io-basics'
+include 'chapter08-jvm-memory-model'
+include 'chapter09-object-model'
+include 'chapter10-reflection-annotations'
+include 'chapter11-thread-basics'
+include 'chapter12-executor-blocking-queue'
+include 'chapter13-completable-future'
+include 'chapter14-virtual-thread'
+include 'chapter15-io-basics'
 
 // ── Phase 3 — 네트워크 (소켓 / HTTP) ─────────────────────────────
-include 'chapter15-tcp-socket'
-include 'chapter16-http-protocol'
-include 'chapter17-concurrent-http-server'
-include 'chapter18-mini-web-framework'
+include 'chapter16-tcp-socket'
+include 'chapter17-http-protocol'
+include 'chapter18-concurrent-http-server'
+include 'chapter19-mini-web-framework'
 
 // 물리 폴더 위치 매핑 (이름은 평면 유지)
 ['chapter01-generics-collections', 'chapter02-hashmap-lru', 'chapter03-sorting-trees',
- 'chapter04-functional-interface', 'chapter05-stream-optional', 'chapter06-modern-java-syntax'].each {
+ 'chapter04-functional-interface', 'chapter05-stream-optional', 'chapter06-modern-java-syntax',
+ 'chapter07-exception-model'].each {
     project(":$it").projectDir = file("phase1-foundations/$it")
 }
-['chapter07-jvm-memory-model', 'chapter08-object-model', 'chapter09-reflection-annotations',
- 'chapter10-thread-basics', 'chapter11-executor-blocking-queue', 'chapter12-completable-future',
- 'chapter13-virtual-thread', 'chapter14-io-basics'].each {
+['chapter08-jvm-memory-model', 'chapter09-object-model', 'chapter10-reflection-annotations',
+ 'chapter11-thread-basics', 'chapter12-executor-blocking-queue', 'chapter13-completable-future',
+ 'chapter14-virtual-thread', 'chapter15-io-basics'].each {
     project(":$it").projectDir = file("phase2-jvm-concurrency/$it")
 }
-['chapter15-tcp-socket', 'chapter16-http-protocol', 'chapter17-concurrent-http-server',
- 'chapter18-mini-web-framework'].each {
+['chapter16-tcp-socket', 'chapter17-http-protocol', 'chapter18-concurrent-http-server',
+ 'chapter19-mini-web-framework'].each {
     project(":$it").projectDir = file("phase3-networking/$it")
 }

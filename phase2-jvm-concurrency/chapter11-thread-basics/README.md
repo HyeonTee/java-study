@@ -22,7 +22,7 @@ ch08은 "보장이 없으면 위험하다"는 **이유**에서 끝났다. ch11�
 ```
 
 이 단원에서 다루지 않는 것(경계):
-- **고수준 도구** — `ExecutorService`, 스레드풀, `BlockingQueue`, Producer-Consumer, `wait`/`notify`, `ReentrantLock`은 **ch12**에서. ch11은 날것의 `Thread`로 먼저 근육을 만든다.
+- **고수준 도구** — `ExecutorService`, 스레드풀, `BlockingQueue`, Producer-Consumer, `wait`/`notify`, `ReentrantLock`은 **ch13**에서. ch11은 날것의 `Thread`로 먼저 근육을 만든다.
 - **`Thread.start()`/`join()`의 happens-before 이론** — ch08에서 이미 다뤘다. 여기서는 그 규칙에 *의존하는 코드를 짠다*.
 
 ---

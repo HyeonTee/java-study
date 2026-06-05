@@ -7,7 +7,7 @@ import java.util.function.Function;
  *
  * <p>핵심 패턴은 <strong>wrap-and-rethrow</strong>(감싸서 다시 던지기)다.
  * 검사 예외를 비검사 예외로 바꿔 표준 함수형 인터페이스 자리에 끼워 넣는다.
- * 이 패턴은 Phase 2의 {@code CompletableFuture} 예외 전파(ch13)에서 다시 만난다.
+ * 이 패턴은 Phase 2의 {@code CompletableFuture} 예외 전파(ch14)에서 다시 만난다.
  */
 public class ThrowingFunctionPractice {
 

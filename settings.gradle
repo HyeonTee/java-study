@@ -18,16 +18,17 @@ include 'chapter08-jvm-memory-model'
 include 'chapter09-object-model'
 include 'chapter10-reflection-annotations'
 include 'chapter11-thread-basics'
-include 'chapter12-executor-blocking-queue'
-include 'chapter13-completable-future'
-include 'chapter14-virtual-thread'
-include 'chapter15-io-basics'
+include 'chapter12-interruption'
+include 'chapter13-executor-blocking-queue'
+include 'chapter14-completable-future'
+include 'chapter15-virtual-thread'
+include 'chapter16-io-basics'
 
 // ── Phase 3 — 네트워크 (소켓 / HTTP) ─────────────────────────────
-include 'chapter16-tcp-socket'
-include 'chapter17-http-protocol'
-include 'chapter18-concurrent-http-server'
-include 'chapter19-mini-web-framework'
+include 'chapter17-tcp-socket'
+include 'chapter18-http-protocol'
+include 'chapter19-concurrent-http-server'
+include 'chapter20-mini-web-framework'
 
 // 물리 폴더 위치 매핑 (이름은 평면 유지)
 ['chapter01-generics-collections', 'chapter02-hashmap-lru', 'chapter03-sorting-trees',
@@ -36,11 +37,11 @@ include 'chapter19-mini-web-framework'
     project(":$it").projectDir = file("phase1-foundations/$it")
 }
 ['chapter08-jvm-memory-model', 'chapter09-object-model', 'chapter10-reflection-annotations',
- 'chapter11-thread-basics', 'chapter12-executor-blocking-queue', 'chapter13-completable-future',
- 'chapter14-virtual-thread', 'chapter15-io-basics'].each {
+ 'chapter11-thread-basics', 'chapter12-interruption', 'chapter13-executor-blocking-queue',
+ 'chapter14-completable-future', 'chapter15-virtual-thread', 'chapter16-io-basics'].each {
     project(":$it").projectDir = file("phase2-jvm-concurrency/$it")
 }
-['chapter16-tcp-socket', 'chapter17-http-protocol', 'chapter18-concurrent-http-server',
- 'chapter19-mini-web-framework'].each {
+['chapter17-tcp-socket', 'chapter18-http-protocol', 'chapter19-concurrent-http-server',
+ 'chapter20-mini-web-framework'].each {
     project(":$it").projectDir = file("phase3-networking/$it")
 }

@@ -18,15 +18,15 @@
 4. `src/main/java` 안의 빈 구현을 채워서 테스트를 초록불로 만든다.
 5. 순서대로 진행하되, 관심 있는 Phase부터 시작해도 무방하다.
 
-## 커리큘럼 (18단원, 3 Phase)
+## 커리큘럼 (19단원, 3 Phase)
 
-> ⚠️ **ch17·ch18은 Gradle 프로젝트 의존을 갖는 두 단원이다**: ch17은 `:chapter16-http-protocol`을, ch18은 `:chapter17-concurrent-http-server`+`:chapter16-http-protocol`을 복사 대신 실제 의존으로 끌어온다(이전 단원 구현 재사용). 그래서 `main`에선 두 단원의 HTTP 의존 테스트가 빨간불이고, 챕터를 순서대로 풀면 초록불이 된다. 단 **ch18 코어(제네릭 Handler/Router/Middleware/JSON)는 HTTP 무관이라 ch18만 풀어도 코어 테스트는 초록불**이다.
+> ⚠️ **ch18·ch19은 Gradle 프로젝트 의존을 갖는 두 단원이다**: ch18은 `:chapter17-http-protocol`을, ch19은 `:chapter18-concurrent-http-server`+`:chapter17-http-protocol`을 복사 대신 실제 의존으로 끌어온다(이전 단원 구현 재사용). 그래서 `main`에선 두 단원의 HTTP 의존 테스트가 빨간불이고, 챕터를 순서대로 풀면 초록불이 된다. 단 **ch19 코어(제네릭 Handler/Router/Middleware/JSON)는 HTTP 무관이라 ch19만 풀어도 코어 테스트는 초록불**이다.
 
 > **저장소 구조**: 단원은 Phase별 폴더(`phase1-foundations/`, `phase2-jvm-concurrency/`, `phase3-networking/`)로 묶여 있다. Gradle 프로젝트 이름은 평면이라 테스트 명령은 폴더와 무관하게 `./gradlew :chapterNN-주제:test` 그대로다.
 
 ### Phase 1 — 자료구조 / 제네릭 / 함수형 / 현대 문법
 
-Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구현해보고, Stream/Optional/함수형으로 선언적 코드 작성법을 익힌다.
+Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구현해보고, Stream/Optional/함수형으로 선언적 코드 작성법을 익힌 뒤, 마지막으로 예외 모델(실패를 타입으로 다루는 법)을 정식으로 짚고 Phase 2로 넘어간다.
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
@@ -36,29 +36,30 @@ Java의 기본기를 다진다. 표준 라이브러리의 내부를 직접 구�
 | `chapter04-functional-interface` | 함수형 인터페이스 (`Function`, `Predicate`, `Consumer`, `Supplier`), 검사 예외 래핑 | 18 문제 · 61 tests |
 | `chapter05-stream-optional` | Stream API, `Optional`, `Collector` 직접 구현 | 23 문제 · 71 tests |
 | `chapter06-modern-java-syntax` | `record`, `sealed`, switch expression, pattern matching | 12 문제 · 44 tests |
+| `chapter07-exception-model` | 검사 vs 비검사 예외 설계, `sealed` 예외 계층, cause 체이닝, try-with-resources(LIFO·suppressed), 람다 검사예외 어댑팅 | 9 문제 · 17 tests |
 
 ### Phase 2로 넘어가기 전 — 선수 개념 점검
 
 | 선수 개념 | 왜 필요한가 | 어디서 다지나 |
 |---|---|---|
-| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch08에서 계약 자체를 작성 |
-| 검사 예외(checked) + wrap-and-rethrow | ch09 리플렉션 예외 래핑, ch12 예외 전파, ch14 `IOException`, ch15 소켓 | ch04 `ThrowingFunction` 문제 |
-| try-with-resources / `AutoCloseable` | ch14 IO, ch15 소켓 수명주기 | ch14에서 본격적으로 |
+| `equals`/`hashCode` 계약 | 값 객체를 맵/셋의 키로 쓰는 모든 곳 | ch02 HashMap 키 계약, ch09에서 계약 자체를 작성 |
+| 검사 vs 비검사 예외 · cause 체이닝 | ch10 리플렉션 예외 래핑, ch13 예외 전파, ch15 `IOException`, ch16 소켓 | **ch07 예외 모델**에서 정식으로(ch04 `ThrowingFunction` 문제가 전신) |
+| try-with-resources / `AutoCloseable` (LIFO·suppressed) | ch15 IO, ch16 소켓 수명주기 | **ch07 예외 모델**에서 정식으로, ch15 IO에서 재사용 |
 
 ### Phase 2 — JVM / 동시성 / IO
 
-JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch08 객체 모델 → ch09 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다. 마지막으로 스트림 I/O·프레이밍(ch14)으로 Phase 3 네트워크의 토대를 놓는다.
+JVM이 메모리를 어떻게 관리하는지(ch08) 이해하고, 객체·클래스가 런타임에 실제로 무엇인지(ch09 객체 모델 → ch10 리플렉션) 해부한 뒤, 멀티스레드 프로그래밍을 저수준(`Thread`)부터 고수준(`CompletableFuture`, Virtual Thread)까지 단계적으로 학습한다. 마지막으로 스트림 I/O·프레이밍(ch15)으로 Phase 3 네트워크의 토대를 놓는다.
 
 | 단원 | 주제 | 규모 |
 |---|---|---|
-| `chapter07-jvm-memory-model` | 도달성 분석(mark-sweep)·세대별 GC 시뮬레이션 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 12 문제 · 23 tests |
-| `chapter08-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
-| `chapter09-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
-| `chapter10-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
-| `chapter11-executor-blocking-queue` | `BlockingQueue`(wait/notify·Condition 2방식)·미니 스레드풀 직접 구현, Producer-Consumer | 17 문제 · 36 tests |
-| `chapter12-completable-future` | 미니 promise(콜백·합성) 직접 구현, `CompletableFuture` 파이프라인·예외 전파 | 18 문제 · 23 tests |
-| `chapter13-virtual-thread` | 가상 스레드(thread-per-task), structured concurrency 미니 스코프 직접 구현, 순서 보존 fan-out | 8 문제 · 18 tests |
-| `chapter14-io-basics` | 스트림 데코레이터·라인/길이 프레이밍·NIO `ByteBuffer`·try-with-resources(LIFO·suppressed) 직접 구현 | 18 문제 · 36 tests |
+| `chapter08-jvm-memory-model` | 도달성 분석(mark-sweep)·세대별 GC 시뮬레이션 직접 구현, 약한 참조 캐시, JMM/GC 이론 | 12 문제 · 23 tests |
+| `chapter09-object-model` | 동적 디스패치(vtable) 직접 구현, 정체성 vs 동등성, 방어적 복사/캡슐화, 내부 클래스 캡처 | 13 문제 · 35 tests |
+| `chapter10-reflection-annotations` | `Class`/`Method`/`Field` 리플렉션, 커스텀 애너테이션 스캔, 객체↔맵 매퍼, 동적 프록시 직접 구현 | 11 문제 · 25 tests |
+| `chapter11-thread-basics` | `Thread`/`join`, `synchronized`, `volatile`, Atomic/CAS, 경쟁조건 | 14 문제 · 58 tests |
+| `chapter12-executor-blocking-queue` | `BlockingQueue`(wait/notify·Condition 2방식)·미니 스레드풀 직접 구현, Producer-Consumer | 17 문제 · 36 tests |
+| `chapter13-completable-future` | 미니 promise(콜백·합성) 직접 구현, `CompletableFuture` 파이프라인·예외 전파 | 18 문제 · 23 tests |
+| `chapter14-virtual-thread` | 가상 스레드(thread-per-task), structured concurrency 미니 스코프 직접 구현, 순서 보존 fan-out | 8 문제 · 18 tests |
+| `chapter15-io-basics` | 스트림 데코레이터·라인/길이 프레이밍·NIO `ByteBuffer`·try-with-resources(LIFO·suppressed) 직접 구현 | 18 문제 · 36 tests |
 
 ### Phase 3 — 네트워크 / 웹
 
@@ -68,10 +69,10 @@ JVM이 메모리를 어떻게 관리하는지(ch07) 이해하고, 객체·클래
 
 | 단원 | 주제 | 복습하는 이전 Phase | 규모 |
 |---|---|---|---|
-| `chapter15-tcp-socket` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 스트림 위 프로토콜·라인/길이 프레이밍·half-close(`shutdownOutput`) | ch14 `LineReader`/`FrameCodec`/`closeAll`, try-with-resources | 19 문제 · 33 tests |
-| `chapter16-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` + chunked 디코더), `sealed`+`record`로 메시지 모델링, case-insensitive 헤더 맵, 미니 HTTP 클라이언트(실소켓 1왕복) | ch15 `LineProtocol.readLine`·`readFully`/Content-Length·CRLF·half-close, ch06 sealed/record/pattern matching, ch05 Optional, ch02 HashMap(헤더 맵), ch04 검사 예외 | 18 문제 · 47 tests |
-| `chapter17-concurrent-http-server` | ch16 1왕복 핸들러를 keep-alive 연결 루프(한 소켓 N요청) × 교체 가능한 `Executor`(caller-runs → 연결당 스레드 → 스레드풀 → 가상스레드)로 진화, `Connection` 협상·connection-close(EOF) 프레이밍·DoS 한계 enforce(431/413). **ch16을 Gradle 의존으로 끌어옴 → `main`에선 전부 빨간불** | ch16 `HttpParser`/`HttpMessageWriter`/`Headers`(Gradle 의존), ch15 `ServerSocket`·4규율, ch13 가상스레드, ch11 풀, ch10 Thread, ch07 가시성 | 21 문제 · 30 tests |
-| `chapter18-mini-web-framework` | **캡스톤** — 제네릭 `Handler<Req,Res>` 한 벌로 라우터(`/users/{id}` 경로변수)·미들웨어 양파(before/after)·sealed `JsonValue` 직렬화를 합성, ch17 `HttpHandler` 자리에 꽂는 `HttpAdapter`(404/405/500 번역). **ch16/ch17을 Gradle 의존으로 재사용 → HTTP 봉합 테스트는 `main`에서 red, 코어는 자체 green** | ch17 `HttpHandler`(Gradle 의존)·ch16 `HttpRequest`/`Response`(Gradle 의존), ch09 리플렉션·`@Route`(`RouteScanner` 승격·record 접근자), ch06 sealed/record, ch04 함수 합성, ch03 바운드 제네릭, ch02 맵, ch01 제네릭 | 18 문제 · 43 tests |
+| `chapter16-tcp-socket` | `ServerSocket`/`Socket` 생명주기, 블로킹 I/O, TCP echo **서버 + 클라이언트**, 스트림 위 프로토콜·라인/길이 프레이밍·half-close(`shutdownOutput`) | ch15 `LineReader`/`FrameCodec`/`closeAll`, try-with-resources | 19 문제 · 33 tests |
+| `chapter17-http-protocol` | HTTP/1.1 요청·응답 직접 파싱·직렬화, 메시지 프레이밍(`Content-Length` + chunked 디코더), `sealed`+`record`로 메시지 모델링, case-insensitive 헤더 맵, 미니 HTTP 클라이언트(실소켓 1왕복) | ch16 `LineProtocol.readLine`·`readFully`/Content-Length·CRLF·half-close, ch06 sealed/record/pattern matching, ch05 Optional, ch02 HashMap(헤더 맵), ch04 검사 예외 | 18 문제 · 47 tests |
+| `chapter18-concurrent-http-server` | ch17 1왕복 핸들러를 keep-alive 연결 루프(한 소켓 N요청) × 교체 가능한 `Executor`(caller-runs → 연결당 스레드 → 스레드풀 → 가상스레드)로 진화, `Connection` 협상·connection-close(EOF) 프레이밍·DoS 한계 enforce(431/413). **ch17을 Gradle 의존으로 끌어옴 → `main`에선 전부 빨간불** | ch17 `HttpParser`/`HttpMessageWriter`/`Headers`(Gradle 의존), ch16 `ServerSocket`·4규율, ch14 가상스레드, ch12 풀, ch11 Thread, ch08 가시성 | 21 문제 · 30 tests |
+| `chapter19-mini-web-framework` | **캡스톤** — 제네릭 `Handler<Req,Res>` 한 벌로 라우터(`/users/{id}` 경로변수)·미들웨어 양파(before/after)·sealed `JsonValue` 직렬화를 합성, ch18 `HttpHandler` 자리에 꽂는 `HttpAdapter`(404/405/500 번역). **ch17/ch18을 Gradle 의존으로 재사용 → HTTP 봉합 테스트는 `main`에서 red, 코어는 자체 green** | ch18 `HttpHandler`(Gradle 의존)·ch17 `HttpRequest`/`Response`(Gradle 의존), ch10 리플렉션·`@Route`(`RouteScanner` 승격·record 접근자), ch06 sealed/record, ch04 함수 합성, ch03 바운드 제네릭, ch02 맵, ch01 제네릭 | 18 문제 · 43 tests |
 
 ## 실행
 

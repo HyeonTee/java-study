@@ -237,7 +237,7 @@ static <T, R> Function<T, R> unchecked(ThrowingFunction<T, R> f) {
 }
 ```
 
-이 wrap-and-rethrow 패턴은 Phase 2의 `CompletableFuture` 예외 전파(ch12)에서 다시 만난다. 검사 예외를 비검사로 바꾸면 원래 예외를 `cause`로 보존하는 것이 중요하다.
+이 wrap-and-rethrow 패턴은 Phase 2의 `CompletableFuture` 예외 전파(ch13)에서 다시 만난다. 검사 예외를 비검사로 바꾸면 원래 예외를 `cause`로 보존하는 것이 중요하다.
 
 ---
 
@@ -273,7 +273,7 @@ static <T, R> Function<T, R> unchecked(ThrowingFunction<T, R> f) {
 
 ### ThrowingFunctionPractice (2문제)
 
-검사 예외를 던지는 함수를 표준 `Function`으로 변환. ch12 예외 전파의 선수 패턴.
+검사 예외를 던지는 함수를 표준 `Function`으로 변환. ch13 예외 전파의 선수 패턴.
 
 | # | 메서드 | 핵심 |
 |---|---|---|

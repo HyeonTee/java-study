@@ -61,15 +61,19 @@ public final class MyComparators {
      */
     public static <T> Comparator<T> nullsFirst(Comparator<? super T> inner) {
         return (a, b) -> {
-            if (a != null && b != null) {
-                return inner.compare(a, b);
-            } else if (a == null && b == null) {
+            if (a == null && b == null) {
                 return 0;
-            } else if (a == null) {
+            }
+
+            if (a == null) {
                 return -1;
-            } else {
+            }
+
+            if (b == null) {
                 return 1;
             }
+
+            return inner.compare(a, b);
         };
     }
 
@@ -79,15 +83,19 @@ public final class MyComparators {
      */
     public static <T> Comparator<T> nullsLast(Comparator<? super T> inner) {
         return (a, b) -> {
-            if (a != null && b != null) {
-                return inner.compare(a, b);
-            } else if (a == null && b == null) {
+            if (a == null && b == null) {
                 return 0;
-            } else if (a == null) {
+            }
+
+            if (a == null) {
                 return 1;
-            } else {
+            }
+
+            if (b == null) {
                 return -1;
             }
+
+            return inner.compare(a, b);
         };
     }
 }

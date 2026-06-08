@@ -127,6 +127,77 @@ class MyBinarySearchTreeTest {
             }
             assertEquals(odds, t.inorder());
         }
+
+        @Test
+        @DisplayName("자식 둘 삭제 — 왼쪽 서브트리가 깊어도 '오른쪽 최소(후속자)'로 교체")
+        void 자식_둘_삭제_깊은_왼쪽서브트리() {
+            // 20의 왼쪽 서브트리가 깊이 2. 후속자를 '왼쪽 최소'로 잘못 집으면 [10,15,5,30]으로 깨진다.
+            MyBinarySearchTree<Integer> t = treeOf(20, 10, 30, 5, 15);
+            assertTrue(t.delete(20));
+            assertEquals(List.of(5, 10, 15, 30), t.inorder());
+        }
+
+        @Test
+        @DisplayName("자식 둘 삭제 — 후속자가 오른쪽 깊은 곳에 있고 자기 오른자식을 가짐")
+        void 자식_둘_삭제_후속자가_깊고_오른자식보유() {
+            // 50 삭제 → 후속자=60(70의 왼쪽 끝), 60은 오른자식 65를 가짐.
+            // 후속자를 떼낼 때 65를 부모에 다시 잇지 않으면 65가 사라진다.
+            MyBinarySearchTree<Integer> t = treeOf(50, 30, 70, 60, 80, 65);
+            assertTrue(t.delete(50));
+            assertEquals(List.of(30, 60, 65, 70, 80), t.inorder());
+        }
+
+        @Test
+        @DisplayName("자식 둘 삭제 — 후속자가 곧 삭제노드의 오른자식(오른자식에 왼쪽이 없음)")
+        void 자식_둘_삭제_후속자가_바로_오른자식() {
+            // 5 삭제 → 후속자=8(5의 오른자식, 왼쪽 없음). 떼낼 때 left/right 방향을 헷갈리면 깨진다.
+            MyBinarySearchTree<Integer> t = treeOf(5, 3, 8, 9);
+            assertTrue(t.delete(5));
+            assertEquals(List.of(3, 8, 9), t.inorder());
+        }
+
+        @Test
+        void delete는_size를_감소시키고_없는값은_size불변() {
+            MyBinarySearchTree<Integer> t = treeOf(5, 3, 8, 1, 4);
+            assertTrue(t.delete(3));
+            assertEquals(4, t.size());
+            assertFalse(t.delete(99));
+            assertEquals(4, t.size());
+        }
+
+        @Test
+        void 모든_노드를_삭제하면_빈_트리() {
+            int[] vals = {5, 3, 8, 1, 4, 7, 9};
+            MyBinarySearchTree<Integer> t = treeOf(vals);
+            for (int v : vals) {
+                assertTrue(t.delete(v));
+            }
+            assertTrue(t.isEmpty());
+            assertEquals(0, t.size());
+            assertEquals(List.of(), t.inorder());
+        }
+
+        @Test
+        void 무작위_삽입후_무작위_절반삭제_정렬유지() {
+            List<Integer> values = new ArrayList<>();
+            for (int i = 0; i < 500; i++) {
+                values.add(i);
+            }
+            java.util.Collections.shuffle(values, new Random(7));
+            MyBinarySearchTree<Integer> t = new MyBinarySearchTree<>();
+            values.forEach(t::insert);
+
+            List<Integer> remaining = new ArrayList<>(values);
+            for (int i = 0; i < 250; i++) {
+                int v = values.get(i);
+                assertTrue(t.delete(v));
+                remaining.remove(Integer.valueOf(v));
+            }
+            java.util.Collections.sort(remaining);
+
+            assertEquals(remaining, t.inorder());
+            assertEquals(250, t.size());
+        }
     }
 
     @Nested

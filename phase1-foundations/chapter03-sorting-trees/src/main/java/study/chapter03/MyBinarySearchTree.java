@@ -1,6 +1,12 @@
 package study.chapter03;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * 비균형 이진탐색트리(BST) — 이 단원의 간판. 모든 노드가 "왼쪽 &lt; 자신 &lt; 오른쪽" 불변식을 만족한다.
@@ -102,9 +108,10 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
         Node<T> curr = root;
 
         while (curr != null) {
-            if (curr.value.compareTo(value) == 0) {
+            int cmp = curr.value.compareTo(value);
+            if (cmp == 0) {
                 return true;
-            } else if (curr.value.compareTo(value) > 0) {
+            } else if (cmp > 0) {
                 curr = curr.left;
             } else {
                 curr = curr.right;
@@ -125,7 +132,87 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
      * @return 실제로 삭제되면 {@code true}, 없던 값이면 {@code false}
      */
     public boolean delete(T value) {
-        throw new UnsupportedOperationException("TODO: BST 삭제 (리프/자식1/자식2 후속자 교체)");
+        Node<T> curr = root;
+        Node<T> parent = null;
+
+        while (curr != null) {
+            int cmp = curr.value.compareTo(value);
+
+            if (cmp > 0) {
+                parent = curr;
+                curr = curr.left;
+            } else if (cmp < 0) {
+                parent = curr;
+                curr = curr.right;
+            } else {
+                boolean isLeaf = curr.left == null && curr.right == null;
+                boolean hasOnlyLeft = curr.left == null && curr.right != null;
+                boolean hasOnlyRight = curr.left != null && curr.right == null;
+                if (parent == null) {
+                    if (isLeaf) {
+                        root = null;
+                    } else if (hasOnlyLeft) {
+                        root = curr.right;
+                    } else if (hasOnlyRight) {
+                        root = curr.left;
+                    } else {
+                        root.value = extractMinNode(curr.right, curr);
+                    }
+                } else {
+                    boolean isLeft = parent.left == curr;
+                    if (isLeaf) {
+                        if (isLeft) {
+                            parent.left = null;
+                        } else {
+                            parent.right = null;
+                        }
+                    } else if (hasOnlyLeft) {
+                        if (isLeft) {
+                            parent.left = curr.right;
+                        } else {
+                            parent.right = curr.right;
+                        }
+                    } else if (hasOnlyRight) {
+                        if (isLeft) {
+                            parent.left = curr.left;
+                        } else {
+                            parent.right = curr.left;
+                        }
+                    } else {
+                        if (isLeft) {
+                            parent.left.value = extractMinNode(curr.right, curr);
+                        } else {
+                            parent.right.value = extractMinNode(curr.right, curr);
+                        }
+                    }
+                }
+
+                size--;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private T extractMinNode(Node<T> node, Node<T> parent) {
+        Node<T> substitute = null;
+
+        boolean isLeft = false;
+        while (node.left != null) {
+            parent = node;
+            node = node.left;
+            isLeft = true;
+        }
+
+        substitute = node;
+        if (isLeft) {
+            parent.left = node.right;
+        } else {
+            parent.right = node.right;
+        }
+
+        return substitute.value;
     }
 
     /**
@@ -134,7 +221,17 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
      * @throws java.util.NoSuchElementException 비어 있으면
      */
     public T min() {
-        throw new UnsupportedOperationException("TODO: 최좌단 값 (비었으면 NoSuchElementException)");
+        if (root == null) {
+            throw new NoSuchElementException();
+        }
+
+        Node<T> curr = root;
+
+        while (curr.left != null) {
+            curr = curr.left;
+        }
+
+        return curr.value;
     }
 
     /**
@@ -143,7 +240,17 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
      * @throws java.util.NoSuchElementException 비어 있으면
      */
     public T max() {
-        throw new UnsupportedOperationException("TODO: 최우단 값 (비었으면 NoSuchElementException)");
+        if (root == null) {
+            throw new NoSuchElementException();
+        }
+
+        Node<T> curr = root;
+
+        while (curr.right != null) {
+            curr = curr.right;
+        }
+
+        return curr.value;
     }
 
     /**
@@ -153,7 +260,24 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
      * 힌트: 왼쪽 → 자신 → 오른쪽 재귀로 append.
      */
     public List<T> inorder() {
-        throw new UnsupportedOperationException("TODO: 중위순회(왼→자신→오른)로 정렬된 리스트 반환");
+        List<T> result = new ArrayList<>();
+
+        Node<T> curr = root;
+        Stack<Node<T>> stack = new Stack<>();
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            curr = stack.pop();
+
+            result.add(curr.value);
+
+            curr = curr.right;
+        }
+
+        return result;
     }
 
     /**
@@ -165,6 +289,31 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
      * 되는 것을 테스트가 보여준다 — "왜 균형이 필요한가"의 증거.
      */
     public int height() {
-        throw new UnsupportedOperationException("TODO: 높이(간선 수) 반환. 빈 트리 -1, 단일 노드 0");
+        if (root == null) {
+            return -1;
+        }
+
+        int height = -1;
+
+        Queue<Node<T>> queue = new ArrayDeque<>();
+
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            height++;
+
+            for (int i = 0; i < queue.size(); i++) {
+                Node<T> node = queue.poll();
+
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+        }
+
+        return height;
     }
 }

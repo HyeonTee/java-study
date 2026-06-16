@@ -78,8 +78,8 @@ public class LRUCache<K, V> {
      * key/value를 캐시에 넣는다.
      * <ul>
      * <li>이미 있는 key면: value 갱신 + DLL head로 이동.</li>
-     * <li>새 key면: 새 노드를 head에 추가, size++.</li>
-     * <li>새 key 추가 후 size > capacity면: tail(=가장 오래된 노드) 제거.</li>
+     * <li>새 key인데 이미 가득 찼으면(size == capacity): 추가 전에 tail(=가장 오래된 노드)을 먼저 제거.</li>
+     * <li>그 뒤 새 노드를 head에 추가, size++.</li>
      * </ul>
      */
     public void put(K key, V value) {

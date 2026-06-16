@@ -70,6 +70,12 @@ class LineReaderTest {
         }
 
         @Test
+        void 단독_CR은_구분자도_제거대상도_아니다() throws Exception {
+            // 구 Mac 스타일 단독 '\r'은 줄 구분자가 아니다. \n 바로 앞도 아니라 제거되지도 않는다 → 그대로 보존.
+            assertEquals(List.of("a\rb"), of("a\rb\n").readLines());
+        }
+
+        @Test
         void UTF8_한글_줄() throws Exception {
             assertEquals(List.of("가나", "다라"), of("가나\n다라").readLines());
         }

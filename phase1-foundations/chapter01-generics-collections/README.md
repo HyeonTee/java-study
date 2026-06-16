@@ -40,7 +40,9 @@ T[] arr = (T[]) new Object[10];
 
 ## 3. 와일드카드 — PECS
 
-`? extends T`는 **읽기 전용**(Producer), `? super T`는 **쓰기 전용**(Consumer).
+`? extends T`는 **주로 읽기**(Producer), `? super T`는 **주로 쓰기**(Consumer).
+
+> 엄밀히는 "읽기 전용/쓰기 전용"이 아니다. `? extends T` 컬렉션에도 `add(null)`은 가능하고(null은 모든 타입의 하위), `? super T`에서도 원소를 `Object`로는 꺼낼 수 있다. 정확히는 **`? extends T`엔 (null 외엔) 안전하게 넣을 수 없고, `? super T`에선 `T`로 안전하게 꺼낼 수 없다**.
 
 ```java
 // 숫자를 더한다 — List 안에서 꺼내 읽기만 함 → extends

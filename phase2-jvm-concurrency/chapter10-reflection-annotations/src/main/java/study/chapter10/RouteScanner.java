@@ -28,7 +28,8 @@ public final class RouteScanner {
      * <ul>
      *   <li>{@code @Route}가 없는 메서드는 제외한다.</li>
      *   <li>같은 경로가 둘 이상이면 {@link ReflectionException}(라우트 충돌).</li>
-     *   <li>등록 순서를 유지하라(예: {@code LinkedHashMap}).</li>
+     *   <li>등록 순서(= 순회하며 모은 순서)를 유지하라(예: {@code LinkedHashMap}). 단
+     *       {@code getDeclaredMethods()} 자체의 반환 순서는 JVM이 보장하지 않는다(소스 선언 순서 ≠ 보장).</li>
      * </ul>
      *
      * <p>힌트: {@code target.getClass().getDeclaredMethods()}를 순회하며

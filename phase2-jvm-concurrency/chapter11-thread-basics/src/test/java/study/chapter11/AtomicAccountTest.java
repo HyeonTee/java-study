@@ -86,7 +86,11 @@ class AtomicAccountTest {
         @Timeout(10)
         @DisplayName("입금/출금 혼합: 돈은 생기지도 사라지지도 않고, 잔액은 음수가 되지 않는다")
         void 입금과_출금이_섞여도_보존된다() {
-            long initial = 1_000_000;
+            // 잔액을 0에서 시작하고 입금액(1) == 출금액(1)으로 맞춘다.
+            // → 잔액이 0 경계 근처를 맴돌아 출금이 실제로 자주 '잔액 부족'으로 실패한다.
+            //   (초기 잔액이 크거나 입금>출금이면 잔액이 단조 증가해 출금 실패/음수 경로를
+            //    한 번도 밟지 않고, CAS 없는 check-then-act 구현조차 통과해버린다.)
+            long initial = 0;
             AtomicAccount acc = new AtomicAccount(initial);
 
             AtomicLong totalDeposited = new AtomicLong(0);
@@ -97,19 +101,20 @@ class AtomicAccountTest {
                 long localWd = 0;
                 for (int i = 0; i < ITERS; i++) {
                     if ((i & 1) == 0) {
-                        acc.deposit(2);
-                        localDep += 2;
-                    } else if (acc.withdraw(1)) {   // 성공한 출금만 집계
+                        acc.deposit(1);
+                        localDep += 1;
+                    } else if (acc.withdraw(1)) {   // 성공한 출금만 집계 (부족하면 false → 미집계)
                         localWd += 1;
                     }
-                    // 어느 순간에도 잔액이 음수면 안 된다 (CAS로 '충분할 때만' 출금)
+                    // 어느 순간에도 잔액이 음수면 안 된다 (CAS로 '충분할 때만' 출금).
+                    // 0 경계를 맴돌므로 check-then-act 레이스는 여기서 음수로 드러난다.
                     assertTrue(acc.balance() >= 0, "잔액이 음수가 되었다 — CAS 조건이 깨짐");
                 }
                 totalDeposited.addAndGet(localDep);
                 totalWithdrawn.addAndGet(localWd);
             });
 
-            // 보존 법칙: 최종 잔액 = 초기 + 입금합 − 성공한 출금합
+            // 보존 법칙: 최종 잔액 = 초기 + 입금합 − 성공한 출금합 (인터리빙과 무관하게 성립)
             assertEquals(initial + totalDeposited.get() - totalWithdrawn.get(), acc.balance());
         }
     }

@@ -108,6 +108,8 @@ new Derived();   // Base() → overridable() → Derived 버전 실행, 그러�
 
 `==`는 **정체성**(같은 객체 = 같은 참조)을, `equals`는 **논리적 동등성**(같은 값)을 비교한다. `new Point2D(1,2) == new Point2D(1,2)`는 `false`지만, 값으로는 같아야 한다.
 
+> 📍 **ch02와의 분담**: equals/hashCode **5조항 자체**(반사·대칭·추이·일관·null)는 ch02에서 *맵 키 관점*으로 이미 익혔다. 이 단원은 그 계약을 **왜** 지켜야 하는지 — 정체성 vs 동등성의 구분과, 아래에서 보듯 **상속이 대칭성·추이성을 깨뜨리는** 함정에 초점을 둔다.
+
 ### `equals` 5계약 (Effective Java Item 10)
 
 반사성 · **대칭성** · 추이성 · 일관성 · `x.equals(null)==false`. 그리고 Item 11: **`equals`가 같다고 본 두 객체는 `hashCode`도 같아야 한다**(아니면 `HashMap`/`HashSet`이 오동작). 

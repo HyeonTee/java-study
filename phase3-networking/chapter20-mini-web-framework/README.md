@@ -6,6 +6,10 @@
 
 > ⚠️ **이 단원은 ch19·ch18을 Gradle 의존으로 실제 재사용한다**(`build.gradle`에 `implementation project(':chapter19-...')` + `':chapter18-...')`). 봉합선을 문서가 아니라 **진짜 타입**으로 증명한다 — {@code HttpAdapter}가 진짜 `study.chapter19.HttpHandler`를 구현하고 ch18 `HttpRequest`/`HttpResponse`를 다룬다. 그 대가로 **HTTP 봉합 테스트는 `main`에서 빨간불**이다(ch18·ch19 스텁 때문). 챕터를 순서대로(ch18→ch19→ch20) 풀면 초록불이 된다. **단, 코어는 HTTP 무관 제네릭이라 ch20만 풀어도 코어 테스트는 초록불**이 된다(아래 "결정성" 참조).
 
+> 🔧 **빨간불이면 어느 쪽인지부터 가려라** — 이 단원의 테스트는 두 부류다:
+> 1. **코어(routing·middleware·json) 테스트가 red** → 의존과 **무관**하다. ch20만 풀어도 green이어야 하니, 바로 *내 ch20 코어 코드*를 의심하라.
+> 2. **HTTP 봉합(`http/…SeamContract`·`Framework…`) 테스트가 red** → **ch18→ch19를 먼저 초록불**로 만들었는지부터 확인하라(그 전엔 red가 정상). 둘 다 green인데도 봉합만 red면 그때 *내 `HttpAdapter` 코드*를 의심한다.
+
 ---
 
 ## 이 단원의 큰 그림 — 프레임워크 = (Router ∘ dispatch) ∘ (Middleware 양파) ∘ (JsonValue 직렬화)

@@ -91,6 +91,19 @@ JVM이 메모리를 어떻게 관리하는지(ch08) 이해하고, 객체·클래
 ./gradlew :chapter01-generics-collections:test --tests "study.chapter01.MyArrayListTest.add_하면_size가_1증가한다"
 ```
 
+### 더 짧게 — `./t` 헬퍼
+
+위 명령이 길면 저장소 루트의 `./t` 스크립트를 쓴다. **챕터 번호 + 테스트 이름 일부**만 넘기면 된다(패키지 경로·`--tests` 따옴표 불필요, 앞뒤 `*` 자동, 한글 OK).
+
+```sh
+./t 1                 # chapter01 전체
+./t 1 MyArrayList     # 이름에 'MyArrayList' 포함된 테스트만
+./t 1 add_하면        # 메서드명 부분 일치
+./t 11 Atomic -w      # 파일이 바뀔 때마다 자동 재실행(continuous) — TDD 빨강→초록 루프에 유용
+```
+
+> 인자 없이 `./t`만 치면 사용법이 나온다. 챕터 번호는 `1`/`01` 둘 다 된다.
+
 ## 요구 환경
 
 - **Java 21 이상** (Gradle toolchain이 자동 다운로드하므로 별도 설치 불필요)

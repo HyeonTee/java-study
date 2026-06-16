@@ -80,6 +80,25 @@ class OptionalPracticeTest {
             assertEquals("computed",
                     OptionalPractice.getOrCompute(Optional.empty(), () -> "computed"));
         }
+
+        @Test
+        void 대비_getOrDefault_인자는_값이_있어도_항상_평가된다() {
+            // 위 테스트: orElseGet(getOrCompute)은 값이 있으면 supplier를 건너뛴다(지연 평가).
+            // 반면 orElse(getOrDefault)의 인자는 호출 '전에' 이미 평가돼 넘어온다 — 지연 불가.
+            // 그래서 기본값 계산이 비싸면 orElse가 아니라 orElseGet을 써야 한다.
+            AtomicBoolean evaluated = new AtomicBoolean(false);
+            String defaultValue = evaluateAndReturn(evaluated);   // 이 줄에서 즉시 평가됨
+            String result = OptionalPractice.getOrDefault(Optional.of("hello"), defaultValue);
+
+            assertEquals("hello", result);   // 값이 있으니 기본값은 쓰이지 않지만…
+            assertTrue(evaluated.get(),      // …이미 평가는 됐다 (orElse의 즉시성)
+                    "orElse의 인자는 값 유무와 무관하게 항상 평가된다 — 비싼 기본값엔 orElseGet을 쓰는 이유");
+        }
+
+        private static String evaluateAndReturn(AtomicBoolean flag) {
+            flag.set(true);
+            return "default";
+        }
     }
 
     @Nested

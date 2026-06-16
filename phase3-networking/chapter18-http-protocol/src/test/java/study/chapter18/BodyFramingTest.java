@@ -30,7 +30,7 @@ class BodyFramingTest {
 
     @Test
     void chunked가_Content_Length를_이긴다() {
-        // RFC 9112 §6.1: Transfer-Encoding이 있으면 Content-Length는 무시된다.
+        // RFC 9112 §6.3: Transfer-Encoding이 있으면 Content-Length는 무시된다.
         Headers h = new Headers().with("Content-Length", "10").with("Transfer-Encoding", "chunked");
         assertInstanceOf(BodyFraming.Chunked.class, BodyFraming.from(h));
     }

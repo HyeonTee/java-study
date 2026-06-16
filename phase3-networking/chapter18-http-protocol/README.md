@@ -63,7 +63,7 @@ ch17가 만든 `readLine`(라인)과 `readFully`(길이)를 **그대로** 빌딩
 - **`Chunked`** — 길이를 미리 모를 때(스트리밍 생성). `ChunkedBody.decode`로 디코드.
 - **`None`** — 바디 없음(GET, 204 등).
 
-**우선순위(RFC 9112 §6.1)**: `Transfer-Encoding: chunked`가 있으면 `Content-Length`는 **무시**된다(chunked 우선). 둘 다 오면 실무는 **request smuggling** 위험으로 거부하지만, 학습은 스펙대로 chunked 우선. `Content-Length`도 `Transfer-Encoding`도 없는 응답의 "**EOF까지 읽기(connection-close)**" 프레이밍은 **ch19 경계**다.
+**우선순위(RFC 9112 §6.3)**: `Transfer-Encoding: chunked`가 있으면 `Content-Length`는 **무시**된다(chunked 우선). 둘 다 오면 실무는 **request smuggling** 위험으로 거부하지만, 학습은 스펙대로 chunked 우선. `Content-Length`도 `Transfer-Encoding`도 없는 응답의 "**EOF까지 읽기(connection-close)**" 프레이밍은 **ch19 경계**다.
 
 `BodyFraming.from(Headers)`가 이 규칙을 박는 유일한 스텁이고, `HttpParser.parse`가 그 결과를 `switch`(pattern matching)로 분기한다.
 

@@ -37,6 +37,8 @@ Class<?> c = Class.forName("java.lang.String");  // 이름(FQCN)으로 — 런�
 
 `Class` 객체에서 `getDeclaredMethods()`, `getDeclaredFields()`, `getConstructors()`, `getAnnotations()`로 클래스의 모든 구조를 꺼낼 수 있다. `Reflect` 연습이 이 기초 위에 안전한 헬퍼를 만든다.
 
+> ⚠️ **순서 주의**: `getDeclaredMethods()`/`getDeclaredFields()`의 **반환 순서는 JVM 명세상 보장되지 않는다**(소스 선언 순서와 일치한다는 보장 없음 — JDK/버전에 따라 다를 수 있다). 그래서 `RouteScanner`/`ObjectMapper`가 `LinkedHashMap`으로 "유지"하는 건 **소스 선언 순서가 아니라 '내가 순회하며 넣은 순서'**다. 이 단원 테스트는 `Set`/`Map` 비교라 순서에 의존하지 않으니 실해는 없지만, 순서에 의존하는 코드를 짜면 안 된다.
+
 ---
 
 ## `Method.invoke`의 예외 모델 — 이 단원의 대표 함정

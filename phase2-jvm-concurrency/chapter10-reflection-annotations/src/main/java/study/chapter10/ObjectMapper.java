@@ -20,7 +20,8 @@ public final class ObjectMapper {
      *   <li>{@link Ignore} 붙은 필드는 제외한다.</li>
      *   <li>{@link Column}이 있고 값이 비어 있지 않으면 그 값을 키로, 아니면 필드명을 키로 쓴다.</li>
      *   <li>{@code static} 필드는 제외한다(힌트: {@code Modifier.isStatic(field.getModifiers())}).</li>
-     *   <li>필드 선언 순서를 유지하라({@code LinkedHashMap}).</li>
+     *   <li>순회 순서를 유지하라({@code LinkedHashMap}). 단 {@code getDeclaredFields()}의 반환 순서는
+     *       JVM이 보장하지 않는다(소스 선언 순서와 일치한다는 보장 없음) — 테스트는 {@code Map} 비교라 무관.</li>
      * </ul>
      *
      * <p>힌트: {@code obj.getClass().getDeclaredFields()} 순회 + {@code setAccessible(true)} +

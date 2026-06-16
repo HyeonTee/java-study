@@ -36,7 +36,7 @@ class SeamContractTest {
     }
 
     @Test
-    void 어댑터는_ch17_HttpHandler로서_JSON을_응답() {
+    void 어댑터는_ch19_HttpHandler로서_JSON을_응답() {
         HttpHandler handler = new HttpAdapter(userRouter());   // IS-A 진짜 ch19 HttpHandler
         HttpResponse res = handler.handle(req("GET", "/users/42"));
         assertEquals(200, res.line().code());

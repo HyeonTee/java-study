@@ -35,7 +35,7 @@ public sealed interface BodyFraming permits BodyFraming.ContentLength, BodyFrami
     /**
      * 헤더로부터 바디 프레이밍을 결정한다 — <strong>이 단원에서 유일하게 채우는 모델 메서드</strong>.
      *
-     * <p><strong>우선순위(RFC 9112 §6.1)</strong>: {@code Transfer-Encoding: chunked}가 있으면 {@link Chunked}
+     * <p><strong>우선순위(RFC 9112 §6.3)</strong>: {@code Transfer-Encoding: chunked}가 있으면 {@link Chunked}
      * ({@code Content-Length}는 <strong>무시</strong>) → 없고 {@code Content-Length}가 있으면 {@link ContentLength}
      * → 둘 다 없으면 {@link None}.
      *

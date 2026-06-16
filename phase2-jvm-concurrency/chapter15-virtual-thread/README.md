@@ -1,6 +1,6 @@
 # Chapter 15 — Virtual Thread · Structured Concurrency
 
-> **선행 단원**: Chapter 11(Thread)·11(스레드풀/BlockingQueue)·12(CompletableFuture). Phase 2(동시성)의 마지막 단원. ch13이 "스레드는 비싸니 풀로 재사용"이라는 전제 위에 풀을 쌓았다면, 이 단원은 그 전제를 **무너뜨린다**(가상 스레드는 싸다 → 풀링하지 마라). 다음 Phase 3의 **ch19(concurrent-http-server)이 "가상 스레드/연결" 모델을 재사용**한다.
+> **선행 단원**: Chapter 11(Thread)·13(스레드풀/BlockingQueue)·14(CompletableFuture). Phase 2(동시성)의 마지막 단원. ch13이 "스레드는 비싸니 풀로 재사용"이라는 전제 위에 풀을 쌓았다면, 이 단원은 그 전제를 **무너뜨린다**(가상 스레드는 싸다 → 풀링하지 마라). 다음 Phase 3의 **ch19(concurrent-http-server)이 "가상 스레드/연결" 모델을 재사용**한다.
 
 > **공식 문서**: [JEP 444 — Virtual Threads](https://openjdk.org/jeps/444) · [`Thread.ofVirtual`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html) · [JEP 453 — Structured Concurrency (Preview)](https://openjdk.org/jeps/453)
 

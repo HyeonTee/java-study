@@ -146,14 +146,14 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
                 curr = curr.right;
             } else {
                 boolean isLeaf = curr.left == null && curr.right == null;
-                boolean hasOnlyLeft = curr.left == null && curr.right != null;
-                boolean hasOnlyRight = curr.left != null && curr.right == null;
+                boolean onlyRightChild = curr.left == null && curr.right != null;
+                boolean onlyLeftChild = curr.left != null && curr.right == null;
                 if (parent == null) {
                     if (isLeaf) {
                         root = null;
-                    } else if (hasOnlyLeft) {
+                    } else if (onlyRightChild) {
                         root = curr.right;
-                    } else if (hasOnlyRight) {
+                    } else if (onlyLeftChild) {
                         root = curr.left;
                     } else {
                         root.value = extractMinNode(curr.right, curr);
@@ -166,13 +166,13 @@ public class MyBinarySearchTree<T extends Comparable<? super T>> {
                         } else {
                             parent.right = null;
                         }
-                    } else if (hasOnlyLeft) {
+                    } else if (onlyRightChild) {
                         if (isLeft) {
                             parent.left = curr.right;
                         } else {
                             parent.right = curr.right;
                         }
-                    } else if (hasOnlyRight) {
+                    } else if (onlyLeftChild) {
                         if (isLeft) {
                             parent.left = curr.left;
                         } else {

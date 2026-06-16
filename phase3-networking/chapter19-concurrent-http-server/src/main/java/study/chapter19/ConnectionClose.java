@@ -42,6 +42,11 @@ public final class ConnectionClose {
      * {@code ChunkedBody.decode}, {@code None}이면 <strong>여기서만</strong> {@link #readUntilEof}(connection-close).
      * {@code None}에서 EOF까지 읽는 건 <strong>응답을 읽을 때만</strong>이다(요청 파싱에선 None=빈 바디 — 위 클래스 주석 참조).
      *
+     * <p><strong>전제(호출자 책임)</strong>: 무바디 응답({@code 1xx}·{@code 204}·{@code 304}, 그리고 {@code HEAD} 요청에
+     * 대한 응답)은 헤더와 무관하게 바디가 없다(RFC 9112 §6.3 규칙 1). 이 메서드는 헤더만 받아 상태코드·요청 메서드를 못 보므로,
+     * 호출자가 그 경우를 <strong>먼저 걸러낸 뒤</strong> 호출한다고 가정한다 — 안 그러면 {@code None}에서 {@link #readUntilEof}가
+     * EOF까지 블로킹해 keep-alive를 깬다.
+     *
      * @throws IOException I/O 오류
      */
     public static byte[] frameResponseBody(Headers headers, InputStream in) throws IOException {

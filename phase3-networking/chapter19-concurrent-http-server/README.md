@@ -75,6 +75,9 @@ ch18에서 떡밥만 깔았던 **세 번째(가 아니라 0번째) 프레이밍*
 
 `readUntilEof`(전부 누적)와 `frameResponseBody`(Content-Length 있으면 그 길이만, 없으면 EOF까지)가 이 규칙을 박는다. 그래서 `Responses` 빌더가 **모든 응답에 `Content-Length`를 항상 확정**한다 — 길이 프레이밍이 keep-alive의 전제다.
 
+> 📦 **무바디 응답 — 헤더가 아니라 상태/메서드가 결정 (RFC 9112 §6.3 규칙 1)**
+> 위 "None → EOF까지"는 **바디가 있을 수 있는 응답에 한정**된다. `1xx`·`204 No Content`·`304 Not Modified` 응답과 **`HEAD` 요청에 대한 응답**은 `Content-Length`/`Transfer-Encoding`이 있든 없든 **항상 바디가 없다**(길이 0). 따라서 실제 클라이언트는 `frameResponseBody`로 내려가기 **전에** 상태코드·요청 메서드로 이들을 먼저 걸러야 한다 — 안 그러면 `204` 응답에서 None → `readUntilEof`가 **EOF(=서버가 소켓을 닫을 때)까지 블로킹**해 keep-alive가 깨진다. `frameResponseBody`가 헤더만 받는 건 이 걸러내기가 **호출자 책임**(이 헬퍼는 상태/메서드를 못 본다)이라는 뜻이다. (서버가 위 `Responses`처럼 모든 응답에 `Content-Length`를 확정해두면 클라이언트의 None 경로 자체가 거의 안 밟힌다.)
+
 ---
 
 ## DoS 방어 — "다 읽고 검사"가 아니라 "누적 중 즉시 차단" (`BoundedHttpParser` · `ServerLimits`)

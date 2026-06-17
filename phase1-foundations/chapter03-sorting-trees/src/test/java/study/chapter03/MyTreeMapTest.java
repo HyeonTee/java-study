@@ -59,6 +59,66 @@ class MyTreeMapTest {
     }
 
     @Nested
+    @DisplayName("remove — 두 자식 노드 (BST 삭제의 가장 어려운 경우)")
+    class RemoveTwoChildren {
+
+        // 제거 후에도 트리가 온전한지 keySet(중위순회)으로 검증한다.
+        // 서브트리 유실(왼쪽 가지 분실)이나 사이클(노드 중복 연결)이 생기면
+        // keySet의 정렬 결과가 틀리거나 StackOverflow/NPE로 터진다.
+
+        @Test
+        void 두_자식_루트_제거_후계자가_오른쪽자식() {
+            // 20(left=10, right=30) — remove(20): 후계자=30(오른쪽자식, 왼쪽자식 없음, isFirst)
+            MyTreeMap<Integer, Integer> m = new MyTreeMap<>();
+            m.put(20, 200);
+            m.put(10, 100);
+            m.put(30, 300);
+
+            assertEquals(200, m.remove(20));
+            assertEquals(List.of(10, 30), m.keySet()); // 왼쪽 10이 유실되면 실패
+            assertEquals(2, m.size());
+            assertNull(m.get(20));
+            assertEquals(100, m.get(10));
+            assertEquals(300, m.get(30));
+        }
+
+        @Test
+        void 두_자식_노드_제거_깊은_후계자() {
+            // 50(left=20, right=80(left=60)) — remove(50): 후계자=60(깊은 곳, !isFirst)
+            MyTreeMap<Integer, Integer> m = new MyTreeMap<>();
+            m.put(50, 500);
+            m.put(20, 200);
+            m.put(80, 800);
+            m.put(60, 600);
+
+            assertEquals(500, m.remove(50));
+            assertEquals(List.of(20, 60, 80), m.keySet()); // 60↔80 사이클이면 터지거나 틀림
+            assertEquals(3, m.size());
+            assertEquals(200, m.get(20));
+            assertEquals(600, m.get(60));
+            assertEquals(800, m.get(80));
+        }
+
+        @Test
+        void 두_자식_비루트_노드_제거() {
+            // 50(left=20(left=10, right=30), right=80) — remove(20): 비루트 + 두 자식
+            MyTreeMap<Integer, Integer> m = new MyTreeMap<>();
+            m.put(50, 500);
+            m.put(20, 200);
+            m.put(80, 800);
+            m.put(10, 100);
+            m.put(30, 300);
+
+            assertEquals(200, m.remove(20));
+            assertEquals(List.of(10, 30, 50, 80), m.keySet());
+            assertEquals(4, m.size());
+            assertNull(m.get(20));
+            assertEquals(100, m.get(10));
+            assertEquals(300, m.get(30));
+        }
+    }
+
+    @Nested
     @DisplayName("keySet은 정렬 순서 (HashMap과 다른 점)")
     class OrderedKeys {
 

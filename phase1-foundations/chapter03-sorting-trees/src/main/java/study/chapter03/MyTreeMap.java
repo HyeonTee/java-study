@@ -3,7 +3,6 @@ package study.chapter03;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Stack;
 
 /**
  * 키가 항상 정렬된 순서로 유지되는 맵 (BST 기반) — ch02 {@code MyHashMap}과의 정면 대비.
